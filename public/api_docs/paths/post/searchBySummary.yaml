@@ -1,0 +1,16 @@
+get:
+  summary: tìm kiếm post theo mô tả
+  tags:
+    - Post service
+  parameters:
+    - in: path
+      name: summary
+      schema:
+        type: string
+      required: true
+      description: mô tả post
+  responses:
+    200:
+      description: Bài viết theo mô tả
+    default:
+      description: unexpected error

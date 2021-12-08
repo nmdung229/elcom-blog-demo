@@ -1,0 +1,40 @@
+get:
+  summary: lấy post theo postID
+  tags:
+    - Post service
+  parameters:
+    - name: postID
+      in: path
+      required: true
+      description: the ID of post to return
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+  responses:
+    200:
+      description: Here is your post
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+                example: 1
+              title:
+                type: string
+                example: Người Việt bắt đầu sống tối giản từ đâu?
+              slug:
+                type: string
+                example: nguoi-viet-bat-dau-song-toi-gian-tu-dau
+              content:
+                type: string
+                example: Những bước đi đầu tiên....
+    400:
+      description: The specified post ID is invalid (not a number).
+    '404':
+      description: A user with the specified ID was not found.
+    default:
+      description: Unexpected error

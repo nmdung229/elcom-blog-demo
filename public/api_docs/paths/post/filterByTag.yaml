@@ -1,0 +1,21 @@
+get:
+  summary: lấy post theo tag
+  tags:
+    - Post service
+  parameters:
+    - name: tag_id
+      in: path
+      required: true
+      description: ID của tag
+      schema:
+        type: integer
+        minimum: 1
+  responses:
+    200:
+      description: Bài viết theo tag
+    400:
+      description: The specified tag ID is invalid (not a number).
+    404:
+      description: A tag with the specified ID was not found.
+    default:
+      description: unexpected error or have no post with this tag

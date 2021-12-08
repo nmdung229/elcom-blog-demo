@@ -1,0 +1,6640 @@
+openapi: 3.0.0
+info:
+  version: "1.1"
+  title: Swagger 1sk
+servers:
+  - url: https://fitness-dev.1sk.vn/api/v1.1
+    description: Fitness Service
+  - url: http://id-dev.1sk.vn/api
+    description: Authentication Service
+  - url: http://care-dev.1sk.vn/api/v1.0
+    description: Care service
+paths:
+  /customer/login:
+    post:
+      summary: Khách hàng đăng nhập.
+      tags:
+        - Đăng nhập (Auth Service)
+      requestBody:
+        description: Form đăng nhập
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LoginForm"
+      responses:
+        "200":
+          description: OK
+  /customer/fb/callback:
+    post:
+      summary: Khách hàng đăng nhập facebook
+      tags:
+        - Đăng nhập (Auth Service)
+      requestBody:
+        description: Form đăng nhập facebook
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginFormSocial"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LoginFormSocial"
+      responses:
+        "200":
+          description: OK
+  /customer/google/callback:
+    post:
+      summary: Khách hàng đăng nhập google
+      tags:
+        - Đăng nhập (Auth Service)
+      requestBody:
+        description: Form đăng nhập google
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginFormSocial"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LoginFormSocial"
+      responses:
+        "200":
+          description: OK
+  /admin/login:
+    post:
+      summary: Nhân viên hệ thống đăng nhập.
+      tags:
+        - Đăng nhập (Auth Service)
+      requestBody:
+        description: Form đăng nhập
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginAdminForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LoginAdminForm"
+      responses:
+        "200":
+          description: OK
+
+  # Portal / Admin / start
+  /admin/portal/tags:
+    get:
+      summary: get list tags
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: type of tag
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/portal/tag:
+    post:
+      summary: create tag
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: tạo thẻ mới
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminPortalTagForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/portal/tag/{id}:
+    get:
+      summary: get tag by id
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id tag
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+        404:
+          description: Tag not found
+    delete:
+      summary: xoá tag by id
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id tag
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+        404:
+          description: Tag not found
+    put:
+      summary: chỉnh sửa tag
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id tag
+      requestBody:
+        description: tạo thẻ mới
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminPortalTagForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+        404:
+          description: Tag not found
+  /admin/blogs:
+    get:
+      summary: get list blog
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+            description: danh mục
+        - in: query
+          name: title
+          schema:
+            type: string
+            description: tiêu đề
+        - in: query
+          name: is_published
+          schema:
+            type: string
+            description:
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/blog:
+    post:
+      summary: create blog
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      consumes:
+        - multipart/form-data
+      requestBody:
+        description: Form tạo blog
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminBlogForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AdminBlogForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /admin/blog/{id}:
+    get:
+      summary: get blog detail
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: int
+            description: blog id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa blog
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: int
+            description: blog id
+      requestBody:
+        description: Form chỉnh sửa blog
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminBlogForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AdminBlogForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá blog và tags
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: int
+            description: blog id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/layouts:
+    get:
+      summary: get layouts
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/layout/{id}:
+    get:
+      summary: get detail layout
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media attribute id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa layout
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media attribute id
+      requestBody:
+        description: Form chỉnh sửa layout
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/pages:
+    get:
+      summary: get pages
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/page:
+    post:
+      summary: create page
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        requestBody:
+          description: Form tạo page
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLayoutForm"
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: "#/components/schemas/AdminLayoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/page/{id}:
+    get:
+      summary: get detail page
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: page id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa page
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: page id
+      requestBody:
+        description: Form chỉnh sửa page
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/partials:
+    get:
+      summary: get list layouts
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/partial:
+    post:
+      summary: create partial
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        requestBody:
+          description: Form tạo partial
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLayoutForm"
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: "#/components/schemas/AdminLayoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/partial/{id}:
+    get:
+      summary: get detail partial
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: partial id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa partial
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: partial id
+      requestBody:
+        description: Form chỉnh sửa page
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/AdminLayoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/attribute:
+    get:
+      summary: get media attribute
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: "sắp xếp theo cột | default: created_at"
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: "sắp xếp tăng / giảm  | default: DESC"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: create media attribute
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaAttributeForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/attribute/{id}:
+    get:
+      summary: get detail media attribute
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media attribute id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa media attribute
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media attribute id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaAttributeForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá media attribute
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media attribute id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/category:
+    get:
+      summary: get media category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: slug
+          schema:
+            type: string
+            description: slug của category
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: create media category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaCategoryForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/category/{id}:
+    get:
+      summary: get detail media category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media category id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa detail media category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media category id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaCategoryForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá media category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media category id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/coach:
+    get:
+      summary: get media coach
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: slug
+          schema:
+            type: string
+            description: slug của coach
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: create media coach
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaCoachForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/topic:
+    get:
+      summary: get list media topic
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: slug
+          schema:
+            type: string
+            description: slug của topic
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: sắp xếp theo cột | default created_at
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: sắp xếp theo | DESC / ASC default DESC
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            description: từ khoá
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: thể loại
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: create media topic
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaTopicForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/videos:
+    get:
+      summary: get list media videos
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: slug
+          schema:
+            type: string
+            description: slug của video
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: sắp xếp theo cột | default created_at
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: sắp xếp theo | DESC / ASC default DESC
+        - in: query
+          name: keywords
+          schema:
+            type: string
+            description: từ khoá
+        - in: query
+          name: category_id
+          schema:
+            type: int
+            description: category id
+        - in: query
+          name: coach_id
+          schema:
+            type: int
+            description: coach id
+        - in: query
+          name: position
+          schema:
+            type: int
+            description: position
+        - in: query
+          name: gender
+          schema:
+            type: int
+            description: giới tính hlv
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/video:
+    post:
+      summary: create media video
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaVideoForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/video/{id}:
+    get:
+      summary: get detail media video
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media video id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá media video
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media video id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa detail media video
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: media video id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminMediaVideoForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/media/playlist:
+    get:
+      summary: get list media playlists
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: sắp xếp theo cột | default created_at
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: sắp xếp theo | DESC / ASC default DESC
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            description: từ khoá
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  # Portal / Admin / end
+  /admin/applications:
+    get:
+      summary: Các micro services khả dụng.
+      security:
+        - bearerAuth: []
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      responses:
+        "200":
+          description: OK
+  /admin/application:
+    post:
+      summary: Tạo mới micro services.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Application"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Application"
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      responses:
+        "200":
+          description: OK
+    put:
+      summary: Cập nhật micro services.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Application"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Application"
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      responses:
+        "200":
+          description: OK
+  /admin/application/{id}:
+    get:
+      summary: Lấy ứng dựng qua id .
+      security:
+        - bearerAuth: []
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+  /admin/application/assign_to:
+    post:
+      summary: Gán ứng dụng cho nội bộ và khách hàng.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationAssignRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ApplicationAssignRequest"
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      responses:
+        "200":
+          description: OK
+  /admin/application/detach:
+    post:
+      summary: Tước quyền truy cập ứng dụng cho nội bộ và khách hàng.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationAssignRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ApplicationAssignRequest"
+      tags:
+        - Quyền truy cập Micro Services (Auth Service)
+      responses:
+        "200":
+          description: OK
+  /customer/me:
+    get:
+      summary: Lấy thông tin người dùng từ JWT.
+      security:
+        - bearerAuth: []
+      tags:
+        - Thông tin người dùng (Auth Service)
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Cập nhật thông tin người dùng.
+      security:
+        - bearerAuth: []
+      tags:
+        - Thông tin người dùng (Auth Service)
+      requestBody:
+        description: Cập nhật
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/me:
+    get:
+      summary: Lấy thông tin người dùng từ JWT.
+      security:
+        - bearerAuth: []
+      tags:
+        - Thông tin người dùng (Auth Service)
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Cập nhật thông tin người dùng.
+      security:
+        - bearerAuth: []
+      tags:
+        - Thông tin người dùng (Auth Service)
+      requestBody:
+        description: Cập nhật
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /log/requests:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Gọi Api từ thiết bị nào vào lúc nào.
+      parameters:
+        - in: query
+          name: keywords
+          required: false
+          schema:
+            type: string
+          allowReserved: true
+      tags:
+        - Thông tin người dùng (Auth Service)
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  #   Service-config
+  #  Admin
+  /admin/config/banners:
+    get:
+      summary: danh sách banners
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: WEB | APP
+        - in: query
+          name: page
+          schema:
+            type: string
+            description: tên trang (page)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/config/banner:
+    post:
+      summary: tạo banner
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: form tạo banner
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigBannerForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+
+  admin/config/banner/{id}:
+    get:
+      summary: lấy banner theo ID
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: banner id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa banner
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: banner id
+      requestBody:
+        summary: form tạo banner
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigBannerForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá banner
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: banner id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/config/sliders:
+    get:
+      summary: danh sách sliders
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: Video | Image
+        - in: query
+          name: page
+          schema:
+            type: string
+            description: tên trang (page)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/config/slider:
+    post:
+      summary: tạo slider
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: form tạo slider
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigSliderForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/config/slider/{id}:
+    get:
+      summary: lấy slider theo ID
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: slider id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa slider
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: slider id
+      requestBody:
+        summary: form sửa slider
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigSliderForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá slider
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: slider id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  admin/config/config-pages:
+    get:
+      summary: danh sách config-pages
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: workout | video | blog
+        - in: query
+          name: module
+          schema:
+            type: string
+            description: tên module | fitness | home
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  admin/config/config-page/{id}:
+    get:
+      summary: get config-page by id
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id config-page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: chỉnh sửa config-page
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: config-page id
+      requestBody:
+        summary: form sửa config
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigConfigPageForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: xoá config-page
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id config-page
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  admin/config/config-page:
+    post:
+      summary: tạo config-page
+      tags:
+        - Admin (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: form tạo config-page
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfigConfigPageForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+
+  # Customer
+  /config/introduction:
+    get:
+      summary: Lấy ứng dựng qua id .
+      tags:
+        - Service Config
+      responses:
+        "200":
+          description: OK
+  /config/getSettingApp:
+    get:
+      summary: Lấy ứng dựng qua id .
+      parameters:
+        - in: query
+          name: version_code
+          type: string
+          description: phiên bản của mobile vd 1.0
+        - in: query
+          name: os
+          type: string
+          description: android | ios
+      tags:
+        - Service Config
+      responses:
+        "200":
+          description: OK
+  #  Banner
+  /config/banners:
+    get:
+      summary: danh sách banners
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: WEB | APP
+        - in: query
+          name: page
+          schema:
+            type: string
+            description: tên trang (page)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /config/banner/{id}:
+    get:
+      summary: lấy banner theo ID
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: banner id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  #  Slider
+  /config/sliders:
+    get:
+      summary: danh sách sliders
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: Video | Image
+        - in: query
+          name: page
+          schema:
+            type: string
+            description: tên trang (page)
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /config/slider/{id}:
+    get:
+      summary: lấy slider theo ID
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: slider id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /config/config-pages:
+    get:
+      summary: danh sách config-pages
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: workout | video | blog
+        - in: query
+          name: module
+          schema:
+            type: string
+            description: tên module | fitness | home
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /config/getByType:
+    get:
+      summary: danh sách config-pages by type
+      tags:
+        - Customer (Fitness Service) / Chưa push
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            description: workout | video | blog
+        - in: query
+          name: module
+          schema:
+            type: string
+            description: tên module | fitness | home
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 trang
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  #   End Service-config
+  /exercises:
+    get:
+      summary: Danh sách excercise
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          #          required: true
+          description: keyword theo từ khóa
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: giới hạn số bản ghi trả về
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: số trang hiện tại
+        - in: query
+          name: subject[]
+          schema:
+            type: integer
+          description: mảng id subject 1
+        - in: query
+          name: level[]
+          schema:
+            type: integer
+          description: mảngid level động tác
+        - in: query
+          name: type[]
+          schema:
+            type: integer
+          description: mảng id type động tác
+        - in: query
+          name: filter[]
+          schema:
+            type: integer
+          description: mảng id filter động tác
+      responses:
+        "200":
+          description: OK
+  /exercise/{id}:
+    get:
+      summary: excercise theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của exercise
+      responses:
+        "200":
+          description: OK
+  /filter/{id}:
+    get:
+      summary: Filter theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID của filter
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: NOT FOUND
+  /filter:
+    get:
+      summary: Danh sách Filter
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            description: keyword filter
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: sắp xếp theo trường (ví dụ created_at)
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: sắp xếp theo thứ tự tăng/giảm dần (DESC ASC)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            description: giới hạn số bản ghi trả về
+        - in: query
+          name: page
+          schema:
+            type: integer
+            description: số trang muốn trả về
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /musics:
+    get:
+      summary: Danh sách music
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            description: giới hạn số bản ghi trả về
+        - in: query
+          name: page
+          schema:
+            type: integer
+            description: số trang muốn trả về
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /workout/rate:
+    post:
+      summary: Rating workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createdRate"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/createdRate"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /workout/bookmark:
+    post:
+      summary: Tạo bookmark cho workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createBookMark"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/createBookMark"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: Workout not found
+  /workout/cloneWorkout:
+    post:
+      summary: cloneWorkout từ template
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workout_id:
+                  type: integer
+                  example: 12
+    responses:
+      200:
+        $ref: "#/components/responses/Success"
+      401:
+        description: Workout not found
+  /workout/recent-workouts:
+    get:
+      summary: danh sách workouts gần đây
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: order
+          type: string
+          description: Sắp xếp theo trường dữ liệu (vd created_at)
+        - in: query
+          name: sort
+          type: string
+          description: Sắp xếp tăng dần / giảm dần (ASC DESC)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+  /workout/recent-workout:
+    post:
+      summary: lưu recent workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workout_id:
+                  type: int
+                  example: 10
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: Access token is missing or invalid or Workout not found
+  /workout/suggest:
+    get:
+      summary: gợi ý workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: subject_id
+          type: int
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+  /categories:
+    get:
+      summary: danh sách danh mục
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          type: int
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+  /category/{id}:
+    get:
+      summary: lấy danh mục theo ID
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          type: int
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: "Unauthorized or invalid Category ID"
+  /level:
+    get:
+      summary: Danh sách level
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+  /level/{id}:
+    get:
+      summary: level theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của level
+      responses:
+        "200":
+          description: OK
+  /subject:
+    get:
+      summary: Danh sách subject
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+  /subject/{id}:
+    get:
+      summary: subject theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của subject
+      responses:
+        "200":
+          description: OK
+  /type:
+    get:
+      summary: Danh sách type
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+  /type/{id}:
+    get:
+      summary: type theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của type
+      responses:
+        "200":
+          description: OK
+  # Fitness/Portal/Blog/Customer start
+  /portal/trang-chu:
+    get:
+      description: lấy trang static
+      tags:
+        - Customer (Fitness Service)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Blog not found"
+  /portal/partial/site_header:
+    get:
+      description: Lấy header/footer
+      tags:
+        - Customer (Fitness Service)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Blog not found"
+  /portal/blog/relates:
+    get:
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: blog_id
+          required: true
+          schema:
+            type: integer
+            description: id blog
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Blog not found"
+  /portal/blog/posts:
+    get:
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: tag_id
+          required: true
+          schema:
+            type: integer
+            description: id tag
+        - in: query
+          name: positions
+          required: true
+          schema:
+            type: string
+            description: "default: fitness | care | both"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Tag not found"
+  /portal/customer/tags:
+    get:
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: type
+          required: true
+          schema:
+            type: string
+            description: "type name, example: blog"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /portal/blog/post/{id}:
+    get:
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  # Fitness/Portal/Blog/Customer end
+  # Fitness/Portal/Media/Customer start
+  /media/attribute:
+    get:
+      summary: get media attribute
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /media/attribute/{id}:
+    get:
+      summary: get media attribute by id
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id attribute
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /media/category:
+    get:
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: slug
+          schema:
+            type: string
+            description: slug của category
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            description: số bản ghi trên 1 page
+        - in: query
+          name: order
+          schema:
+            type: string
+            description: sắp xếp theo trường (ví dụ created_at)
+        - in: query
+          name: sort
+          schema:
+            type: string
+            description: sắp xếp theo thứ tự tăng/giảm dần (DESC ASC)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /media/category/{id}:
+    get:
+      summary: get media category by id
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: id category
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  # Fitness/Portal/Media/Customer end
+
+  /tool:
+    get:
+      summary: Danh sách tool
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+  /tool/{id}:
+    get:
+      summary: tool theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của tool
+      responses:
+        "200":
+          description: OK
+  /workout/filters:
+    get:
+      summary: workout-filters theo id
+      tags:
+        - Customer (Fitness Service)
+      responses:
+        "200":
+          description: OK
+  /workouts:
+    get:
+      summary: Danh sách workout
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: query
+          name: page
+          type: integer
+          description: default 1
+        - in: query
+          name: per_page
+          type: integer
+          description: default 15
+        - in: query
+          name: user_id
+          type: integer
+          description:
+        - in: query
+          name: is_template
+          type: integer
+          description: 1|0 xác định đây có phải là bài tập mẫu không
+        - in: query
+          name: subject
+          type: array
+          description: Mảng id những bộ môn
+        - in: query
+          name: levels
+          type: array
+          description: mảng id độ khó
+        - in: query
+          name: types
+          type: array
+          description: mảng id loại kiểu
+        - in: query
+          name: tools
+          type: array
+          description: mảng id dụng cụ
+        - in: query
+          name: filters
+          type: array
+          description: mảng id filters
+        - in: query
+          name: keywords
+          type: string
+          description: từ khóa tìm kiếm
+      responses:
+        "200":
+          description: OK
+  /workout/{id}:
+    get:
+      summary: workout theo id
+      tags:
+        - Customer (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của workout
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Xoá workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            required: true
+            description: ID của workout
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: NOT FOUND
+    put:
+      summary: Cập nhật workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 (id của workout muốn cập nhật)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: "Workout not found | No permissions"
+  /workout:
+    post:
+      summary: tạo workout
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+      responses:
+        "200":
+          description: OK
+  /admin/exercises:
+    get:
+      summary: Danh sách excercise
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          #          required: true
+          description: keyword theo từ khóa
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: giới hạn số bản ghi trả về
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+          description: số trang hiện tại
+        - in: query
+          name: subject[]
+          schema:
+            type: integer
+          description: mảng  id subject 1
+        - in: query
+          name: level[]
+          schema:
+            type: integer
+          description: mảng id level động tác
+        - in: query
+          name: type[]
+          schema:
+            type: integer
+          description: mảng id type động tác
+        - in: query
+          name: filter[]
+          schema:
+            type: integer
+          description: mảng id filter động tác
+      responses:
+        "200":
+          description: OK
+  /admin/exercise:
+    post:
+      summary: Thêm mới exercise.
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin (Fitness Service)
+      requestBody:
+        description: Form thêm mới động tác
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExerciseForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ExerciseForm"
+      responses:
+        "200":
+          description: OK
+  /admin/exercise/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+        description: id của exercise
+    put:
+      summary: Chỉnh sửa exercise.
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin (Fitness Service)
+      requestBody:
+        description: Form chỉnh sửa động tác
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExerciseForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ExerciseForm"
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: excercise theo id
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin (Fitness Service)
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Xóa exercise.
+      security:
+        - bearerAuth: []
+      tags:
+        - Admin (Fitness Service)
+      responses:
+        "200":
+          description: OK
+  /admin/level:
+    get:
+      summary: Danh sách level
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: tạo level
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LevelForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LevelForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/level/{id}:
+    get:
+      summary: level theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của level
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: xoá level theo id
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của level muốn xoá
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: "level not found"
+    put:
+      summary: cập nhật level
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của level muốn cập nhật
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LevelForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LevelForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: "level not found"
+  /admin/subject:
+    get:
+      summary: Danh sách subject
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: tạo mới subject
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubjectForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/SubjectForm"
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/subject/{id}:
+    get:
+      summary: subject theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của subject
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: xoá subject
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của subject muốn xoá
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+    put:
+      summary: cập nhật subject
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của subject
+      requestBody:
+        description: cập nhật subject
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "New name for subject"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /admin/type:
+    get:
+      summary: Danh sách type
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: tạo type
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Huấn luyện viên update dev"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/type/{id}:
+    get:
+      summary: type theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của type
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: xoá type
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của type
+      responses:
+        "200":
+          description: OK
+    put:
+      summary: cập nhật type
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Huấn luyện viên update dev update"
+      responses:
+        "200":
+          description: OK
+  /admin/tool:
+    get:
+      summary: Danh sách tool
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: index
+          schema:
+            type: string
+          #          required: true
+          description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: tạo tool
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToolForm"
+      responses:
+      200:
+        $ref: "#/components/responses/Success"
+      401:
+        $ref: "#/components/schemas/UnauthorizedError"
+  /admin/tool/{id}:
+    get:
+      summary: tool theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của tool
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: xoá tool
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của tool
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "Unauthorized or Tool not found"
+    put:
+      summary: cập nhật tool
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id của tool
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToolForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          description: "Unauthorized or Tool not found"
+  /admin/categories:
+    get:
+      summary: danh sách category
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/category/{id}:
+    get:
+      summary: category theo ID
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+    delete:
+      summary: xoá category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+    put:
+      summary: chỉnh sửa category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        description: Form chỉnh sửa category
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/workouts/filters:
+    get:
+      summary: workout-filters theo id
+      tags:
+        - Admin (Fitness Service)
+      responses:
+        "200":
+          description: OK
+  /admin/category:
+    post:
+      summary: tạo category
+      tags:
+        - Admin (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Form tạo category
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        401:
+          $ref: "#/components/schemas/UnauthorizedError"
+  /admin/workouts:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Danh sách workout
+      tags:
+        - Admin (Fitness Service)
+      # parameters:
+      #   - in: path
+      #     name: index
+      #     schema:
+      #       type: string
+      #     description: param truyền vào url
+      responses:
+        "200":
+          description: OK
+  # workouts admin
+  /admin/workout/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: workout theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 của workout
+      responses:
+        "200":
+          description: OK
+    delete:
+      security:
+        - bearerAuth: []
+      summary: delete workout theo id
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của workout
+      responses:
+        "200":
+          description: OK
+    put:
+      security:
+        - bearerAuth: []
+      summary: Cập nhật workout
+      tags:
+        - Admin (Fitness Service)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 của workout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+      responses:
+        "200":
+          description: OK
+  /admin/workout/:
+    post:
+      security:
+        - bearerAuth: []
+      summary: tạo workout
+      tags:
+        - Admin (Fitness Service)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/WorkoutForm"
+      responses:
+        "200":
+          description: OK
+  /admin/workout/bookmark:
+    post:
+      security:
+        - bearerAuth: []
+      summary: tạo workout bookmark
+      tags:
+        - Admin (Fitness Service)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createBookMark"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/createBookMark"
+      responses:
+        "200":
+          description: OK
+  /admin/workout/rate:
+    post:
+      security:
+        - bearerAuth: []
+      summary: tạo rating
+      tags:
+        - Admin (Fitness Service)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createdRate"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/createdRate"
+      responses:
+        "200":
+          description: OK
+  /social/comment:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Tạo mới comment
+      tags:
+        - Social Service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createdComment"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/createdComment"
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: Danh sách comment
+      tags:
+        - Social Service
+      parameters:
+        - in: query
+          name: post_id
+          schema:
+            type: integer
+          description: Post id
+      responses:
+        "200":
+          description: OK
+    delete:
+      security:
+        - bearerAuth: []
+      summary: delete comment theo id
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của comment
+      responses:
+        "200":
+          description: OK
+    put:
+      security:
+        - bearerAuth: []
+      summary: Cập nhật comment
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 của comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postForm"
+      responses:
+        "200":
+          description: OK
+  /social/comment/{id}:
+    get:
+      summary: Chi tiết comment
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: comment id
+      responses:
+        "200":
+          description: OK
+  /social/post/like:
+    post:
+      summary: Like post
+      tags:
+        - Social Service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createdLike"
+      responses:
+        "200":
+          description: OK
+  /social/like-by-post/{post_id}:
+    get:
+      summary: Danh sách like của post
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: post_id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+  /social/permission:
+    get:
+      summary: Danh permission post
+      tags:
+        - Social Service
+      responses:
+        "200":
+          description: OK
+  /social/post/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: get post theo id
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của post
+      responses:
+        200:
+          description: OK
+    delete:
+      security:
+        - bearerAuth: []
+      summary: delete post theo id
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của post
+      responses:
+        "200":
+          description: OK
+    put:
+      security:
+        - bearerAuth: []
+      summary: Cập nhật post
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 của post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postForm"
+      responses:
+        "200":
+          description: OK
+  /social/post:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Tạo post
+      tags:
+        - Social Service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postForm"
+      responses:
+        "200":
+          description: OK
+    get:
+      summary: Danh sách post
+      tags:
+        - Social Service
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: page of pagination
+        - in: query
+          name: order
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+    delete:
+      security:
+        - bearerAuth: []
+      summary: delete post theo id
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 2 của post
+      responses:
+        "200":
+          description: OK
+    put:
+      security:
+        - bearerAuth: []
+      summary: Cập nhật post
+      tags:
+        - Social Service
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id = 3 của post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postForm"
+      responses:
+        "200":
+          description: OK
+  #  upload
+  /files/uploadFile:
+    post:
+      summary: Upload file
+      tags:
+        - Upload
+      security:
+        - bearerAuth: []
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          type: file
+          in: formData
+          description: file max:10000|mimes:jpeg,png
+        - name: folder
+          type: string
+          description: name folder  'exercise_images', 'images'
+          example: "exercise_images"
+      responses:
+        "200":
+          description: OK
+  /files/uploadVideo:
+    post:
+      summary: Upload vidoe
+      tags:
+        - Upload
+      consumes:
+        - multipart/form-data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/uploadVideoForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/uploadVideoForm"
+      responses:
+        "200":
+          description: OK
+  /doctor/me:
+    get:
+      summary: Lấy hồ sơ của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Cập nhật hồ sơ của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/updateDoctorMeForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateDoctorMeForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorDetail"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/specialists:
+    get:
+      summary: Lấy danh sách chuyên khoa
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/SpecialistList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctors:
+    get:
+      summary: Lấy danh sách bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: specialist_id
+          description: ID chuyên khoa
+          schema:
+            type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/appointments:
+    get:
+      summary: Lấy danh sách lịch hẹn của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: range
+          description: Khoảng thời gian (today - Hôm nay; coming - Sắp tới; passed - Đã qua; earliest - Gần nhất)
+          schema:
+            type: string
+            enum:
+              - today
+              - coming
+              - passed
+              - earliest
+        - in: query
+          name: appointment_status_id[]
+          description: ID trạng thái lịch hẹn
+          schema:
+            type: array
+            items:
+              type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/appointment/{id}:
+    get:
+      summary: Lấy chi tiết lịch hẹn của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: string
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Cập nhật lịch hẹn của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: string
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/updateDoctorAppointmentForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateDoctorAppointmentForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/appointment/{id}/token:
+    post:
+      summary: Tạo video call token cho lịch hẹn của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: string
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (appointment)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentTokenDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/appointment/{id}/renew-token:
+    post:
+      summary: Tạo mới video call token cho lịch hẹn của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: string
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (appointment)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentTokenDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/appointment/{id}/end:
+    post:
+      summary: Kết thúc lịch hen của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+  /doctor/patients:
+    get:
+      summary: Lấy danh sách bệnh nhân của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: start_date
+          description: Ngày bắt đầu (Y/m/d)
+          schema:
+            type: string
+        - in: query
+          name: end_date
+          description: Ngày kết thúc (Y/m/d)
+          schema:
+            type: string
+        - in: query
+          name: keyword
+          description: Từ khóa tìm kiếm
+          schema:
+            type: string
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/PatientDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/patient/{id}:
+    get:
+      summary: Lấy chi tiết bệnh nhân của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID bệnh nhân của bác sĩ
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/PatientList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/calendars:
+    get:
+      summary: Lấy lịch làm việc của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/CalendarList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/calendar/{id}:
+    post:
+      summary: Cập nhật lịch làm việc của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID khoảng thời gian
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/updateCalendarForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateCalendarForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/CalendarDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/diagnosis-appointments:
+    get:
+      summary: Lấy danh sách lịch hẹn cần chẩn đoán
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/check-available-time:
+    get:
+      summary: Kiểm tra thời gian rảnh của bác sĩ
+      tags:
+        - Bác sĩ (Care service)
+      responses:
+        "200":
+          description: "OK"
+  /appointment-statuses:
+    get:
+      summary: Lấy danh sách trạng thái lịch hẹn
+      tags:
+        - Bác sĩ (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentStatusList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /appointments:
+    get:
+      summary: Lấy danh sách lịch hẹn
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: date
+          description: Ngày (Y/m/d)
+          schema:
+            type: string
+        - in: query
+          name: coming
+          description: Sắp tới
+          schema:
+            type: boolean
+        - in: query
+          name: past
+          description: Đã qua
+          schema:
+            type: boolean
+        - in: query
+          name: appointment_status_id[]
+          description: ID trạng thái lịch hẹn
+          schema:
+            type: array
+            items:
+              type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: Tạo mới lịch hẹn
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/storeAppointmentForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeAppointmentForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /appointment/{id}:
+    get:
+      summary: Lấy chi tiết lịch hẹn của bện nhân
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: Cập nhật lịch hẹn
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/updateAppointmentForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateAppointmentForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /appointment/{id}/token:
+    post:
+      summary: Tạo token cho bệnh nhân
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID lịch hẹn
+          schema:
+            type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (appointment)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentTokenDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /appointment/{id}/renew-token:
+    post:
+      summary: Tạo mới token cho bệnh nhân
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID Lịch hẹn
+          schema:
+            type: integer
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (appointment)
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentTokenDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /doctor/{id}/available-times:
+    get:
+      summary: Lấy danh sách khung giờ rảnh
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID bác sĩ
+          schema:
+            type: integer
+        - in: query
+          name: group_by
+          description: Nhóm thêm
+          schema:
+            type: string
+            enum:
+              - date
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorAvailableTimeList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /appointment/{id}/vote:
+    post:
+      summary: Bệnh nhân vote
+      tags:
+        - Bệnh nhân (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/voteAppointmentForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/voteAppointmentForm"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/announcements:
+    get:
+      summary: Lấy danh sách thông báo
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AnnouncementList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/announcement/unread:
+    get:
+      summary: Lấy danh sách thông báo chưa đọc
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AnnouncementList"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/announcement/{id}:
+    get:
+      summary: Lấy chi tiết thông báo
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID bác sĩ
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/AnnouncementDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/announcement/read:
+    post:
+      summary: Đánh dấu thông báo đã đọc
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/readAnnouncementForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/readAnnouncementForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/AnnouncementDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /webhook/transaction:
+    post:
+      summary: Webhook thanh toán
+      tags:
+        - Webhook (Care service)
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postTransactionForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postTransactionForm"
+      responses:
+        "200":
+          description: "OK"
+  /hotline:
+    get:
+      summary: Lấy số hotline
+      tags:
+        - Cài đặt (Care service)
+      responses:
+        "200":
+          $ref: "#/components/responses/HotlineDetail"
+  /appointment-payment-period:
+    get:
+      summary: Lấy thời gian hết hạn thanh toán
+      tags:
+        - Cài đặt (Care service)
+      responses:
+        "200":
+          $ref: "#/components/responses/AppointmentPaymentPeriodDetail"
+  /admin/customers:
+    get:
+      summary: Lấy danh sách khách hàng
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: email
+          description: Tìm kiếm theo địa chỉ email
+          schema:
+            type: string
+        - in: query
+          name: phone
+          description: Tìm kiếm theo số điện thoại
+          schema:
+            type: string
+        - in: query
+          name: full_name
+          description: Tìm kiếm theo họ tên
+          schema:
+            type: string
+        - in: query
+          name: keywords
+          description: Từ khóa tìm kiếm
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/CustomerInformationList"
+  /admin/permission/sync:
+    get:
+      summary: Đồng bộ quyền
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: name
+          description: Tìm kiếm theo tên
+          schema:
+            type: string
+        - in: query
+          name: guard_name
+          description: Tìm kiếm theo tên guard
+          schema:
+            type: string
+        - in: query
+          name: define
+          description: Tìm kiếm theo định nghĩa
+          schema:
+            type: string
+        - in: query
+          name: keywords
+          description: Từ khóa tìm kiếm
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/PermissionList"
+  /admin/permission/{id}:
+    put:
+      summary: Cập nhật quyền
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: "OK"
+  /admin/permissions:
+    get:
+      summary: Lấy danh sách quyền
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: name
+          description: Tìm kiếm theo tên
+          schema:
+            type: string
+        - in: query
+          name: guard_name
+          description: Tìm kiếm theo tên guard
+          schema:
+            type: string
+        - in: query
+          name: define
+          description: Tìm kiếm theo định nghĩa
+          schema:
+            type: string
+        - in: query
+          name: keywords
+          description: Từ khóa tìm kiếm
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/PermissionList"
+  /admin/role:
+    post:
+      summary: Tạo mới role
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/storeRoleForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeRoleForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/RoleDetail"
+  /admin/role/{id}:
+    put:
+      summary: Cập nhật role
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/storeRoleForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeRoleForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/RoleDetail"
+    delete:
+      summary: Xóa role
+      tags:
+        - Admin (Care service)
+      parameters:
+        - in: path
+          name: id
+          description: ID role
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/RoleDetail"
+  /admin/role/{id}/to_customer/{customer_id}:
+    post:
+      summary: Gán quyền
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: ID role
+          schema:
+            type: integer
+        - in: path
+          name: customer_id
+          description: ID khách hàng
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/CustomerInformationDetail"
+  /admin/roles:
+    get:
+      summary: Danh sách role
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/RoleList"
+  /admin/sync/users:
+    get:
+      summary: Đồng bộ người dùng
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: "OK"
+  /admin/sync/customers:
+    get:
+      summary: Đồng bộ khách hàng
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: "OK"
+  /admin/users:
+    get:
+      summary: Danh sách người dùng
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/CustomerInformationDetail"
+  /admin/doctor:
+    get:
+      summary: Tạo mới bác sĩ
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/storeDoctorForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/storeDoctorForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorDetail"
+  /admin/doctor/{id}:
+    get:
+      summary: Cập nhật bác sĩ
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/updateDoctorForm"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateDoctorForm"
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorDetail"
+  /admin/doctors:
+    get:
+      summary: Danh sách bác sĩ
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: include
+          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          schema:
+            type: string
+        - in: query
+          name: per_page
+          description: Số lượng trên một trang
+          schema:
+            type: integer
+        - in: query
+          name: page
+          description: Số trang
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/DoctorDetail"
+  #  end upload
+  # Fitness / Customer Activity
+  /activity/log:
+    post:
+      summary: tạo logs Activity
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                total_time:
+                  type: string
+                  example: 08:08:08
+                type:
+                  type: integer
+                  example: 3
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /activity/logs:
+    get:
+      summary: get logs Activity
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: start_time
+          required: true
+          schema:
+            type: string
+            description: start time
+        - in: query
+          name: end_time
+          required: true
+          schema:
+            type: string
+            description: end time
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /activity/activitySubjects:
+    get:
+      summary: get List Activity
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+  /activity/activitySubject/{id}:
+    get:
+      summary: get List Activity detail
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: ID của list activity
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: NOT FOUND
+  /activity/activityUser:
+    post:
+      summary: tạo activity user
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createActivityUser"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    get:
+      summary: get activity user
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: ID user
+        - in: query
+          name: start_time
+          required: true
+          schema:
+            type: string
+            description: Khoảng thời gian đầu
+        - in: query
+          name: end_time
+          required: true
+          schema:
+            type: integer
+            description: ID user
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /activity/activityUser/{id}:
+    put:
+      summary: cập nhật activity user
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: ID của activity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateActivityUser"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Unauthorized or Invalid activity ID"
+  /activity/activityUser/activityUserDetail:
+    get:
+      summary: get Activity detail user
+      tags:
+        - Customer (Fitness Service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: activity_id
+          required: true
+          schema:
+            type: integer
+            description: ID của activity
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          description: "Activity not found or Unauthorized"
+components:
+  schemas:
+    ConfigConfigPageForm:
+      title: create config page
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Title config-page"
+        description:
+          type: string
+          example: "abcxyz"
+        type:
+          type: string
+          example: "blog"
+        module:
+          type: string
+          example: "home"
+        order:
+          type: integer
+          example: 1
+        details:
+          type: array
+          example: [
+          {
+            "object_id": 1,
+            "order": 1
+          },
+          {
+            "object_id": 2,
+            "order": 2
+          }
+          ]
+    ConfigSliderForm:
+      title: create slider
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Title slider"
+        image:
+          type: string
+          example: "upload/config/banner/03092020/25aba435-9ced-432a-a090-ee3cd6d36f41.png"
+        link:
+          type: string
+          example: "https://1sk.vn/store/thuc-pham-chuc-nang-sc.BgAtbI"
+        description:
+          type: string
+          example: "abcxyz"
+        type:
+          type: string
+          example: "WEB"
+        status:
+          type: integer
+          example: 1
+        page:
+          type: string
+          example: store
+        video:
+          type: string
+          example: "upload/fitness/video/27112020/b8b267a5-1964-4574-955f-b0eaf3075183.mp4"
+        color:
+          type: string
+          example: "#B1A9C3"
+        type_action:
+          type: string
+          example: EXPLORER
+        type_filter:
+          type: string
+          example: 15
+    ConfigBannerForm:
+      title: create banner
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Title banner"
+        image:
+          type: string
+          example: "upload/config/banner/03092020/25aba435-9ced-432a-a090-ee3cd6d36f41.png"
+        link:
+          type: string
+          example: "https://dantri.com.vn/xa-hoi.htm"
+        description:
+          type: string
+          example: "abcxyz"
+        type:
+          type: string
+          example: "WEB"
+        status:
+          type: integer
+          example: 1
+        page:
+          type: string
+          example: store
+    AdminBlogForm:
+      title: create Blog
+      type: object
+      properties:
+        category:
+          type: string
+          example: training
+        title:
+          type: string
+          example: ĐÀ TĂNG TRƯỞNG LIỆU CÓ QUAY TRỞ LẠI?
+        content:
+          type: string
+          example: "86% lệnh #Short BTC/USD của cá mập trên sàn #Bitfinex đã chốt lời ở mức kháng cự 32.000 (ảnh 1)
+                    Và 15 tháng 7 tới, người dân Mỹ bắt đầu nhận được tiền từ chính phủ. (ảnh 2)
+                    Yếu tố thứ 2 là yếu tố mà cá nhân mình đánh giá khá quan trọng. Điều cần lưu tâm là khi người dân nhận được số tiền đó họ sẽ làm gì?
+                    Khả năng cao là họ tiết tục đổ tiền vào những tài sản rủi ro như chứng khoán, Crypto,... như những gì họ đã làm trong quá khứ. Nếu sự thật là như vậy thì tất cả các loại tài sản rủi ro sẽ còn nhận được đà tăng mạnh trong những tháng tới.
+                    Các bạn đã sẵn sàng?"
+        thumb_image:
+          type: file
+          description: blog thumbnail / file max:10000|mimes:jpeg,png
+        tags:
+          type: array
+          description: danh sách thẻ tags cho blog
+          example: [
+            "finance",
+            "fitness",
+            "crypto"
+          ]
+        position_id:
+          type: array
+          description: danh sách position id
+          example: [1,2,3]
+        is_published:
+          type: array
+          example: [1]
+        friendly_url:
+          type: string
+          example: training-train-kien
+    AdminLayoutForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: default
+        content:
+          type: string
+          example: "<!doctype html> <html lang=\"en\"> <head>{% partial 'site_meta' %}</head> <body> {% partial 'site_header' %} <div class=\"main-wrapper\">{% page %} {% partial 'site_footer' %} </div> {% partial 'site_scripts' %} </body> </html>"
+    AdminMediaVideoForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: New Video
+        description:
+          type: string
+          example: abcxyz
+        image:
+          type: string
+          example: "upload/fitness/image/03092020/f2aa6603-fdc7-48fc-9ae7-b71c02ca8630.png"
+        url:
+          type: string
+          example: "upload/fitness/video/03092020/b299ff61-098e-4cae-986d-8568d0f0b290.mp4"
+        duaration:
+          type: string
+          example: "7:16"
+        size:
+          type: double
+          example: 34517639
+        category_id:
+          type: integer
+          example: 1
+        coach_id:
+          type: integer
+          example: 13
+        type:
+          type: string
+          example: public
+        mime_type:
+          type: string
+          example: "video/mp4"
+        time_action:
+          type: integer
+          example: 20
+        details:
+          type: array
+          example: [
+          {
+            "attribute_id": 1,
+            "value_id": 1
+          },
+          {
+            "attribute_id": 2,
+            "value_id": 2
+          }
+          ]
+        position_id:
+          type: array
+          example: [
+            1,
+            2
+          ]
+    AdminMediaTopicForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: TITLE TOPIC FITNESS NEW
+        type:
+          type: string
+          example: video
+        items:
+          type: array
+          example: [
+            "310e5751-7421-4003-8561-ddda1af6142e",
+            "49bab8c6-647d-4a8b-a7b4-82193d56f01c",
+            "49ee9e3e-ba7e-47db-99aa-23d6b9ac1931",
+            "6bf32512-8f57-42cd-aa2e-97ef80966151",
+            "8c2851ad-fbf8-4e2f-9f44-c161d89196a6",
+            "cbaee416-d978-4fd5-90ea-326bd303f1d7"
+          ]
+    AdminMediaCoachForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Thảo Trương6789
+        avatar:
+          type: string
+          example: "upload/user/avatar/05102020/a2d7caf8-9197-417e-85d0-4188c6e24971.png"
+        gender:
+          type: string
+          example: female
+        category:
+          type: array
+          example: [1]
+        description:
+          type: string
+          example: "HLV Thảo Trương đã có 7 năm làm huấn luyện viên bộ môn aerobic, zumba. Bên cạnh đó HLV Thảo Trương còn có thêm 4 năm kinh nghiệm dựng bài biểu diễn và biên đạo bài cho các sự kiện/chương trình lớn, nhỏ chuyên nghiệp.\n\nBằng cấp/Chứng chỉ:\n- Chứng chỉ Huấn luyện viên Yoga của trung tâm đào tạo huấn luyện viên Yoga Phương Nam\n- Chứng chỉ Huấn luyện viên Yoga phục hồi (trị liệu) của trung tâm đào tạo HLV yoga Phương Nam\n- Chứng chỉ Huấn luyện viên Quốc tế B1: Zumba\n- Chứng chỉ Huấn luyện viên Aerobic\n"
+    AdminMediaCategoryForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: new category
+        image:
+          type: string
+          example: "upload/fitness/image/05102020/1290df4f-3a95-4748-bb7f-67f70da4627f.jpg"
+        attribute:
+          type: array
+          example: [1, 2, 3]
+    AdminMediaAttributeForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Độ khó new 111
+        values:
+          type: array
+          example: ["Dễ", "Khó", "Cực khó"]
+    AdminPortalTagForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Yoga
+        order:
+          type: integer
+          example: 1
+        status:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: video
+    updateActivityUser:
+      type: object
+      properties:
+        activity_id:
+          type: int
+          example: 5
+        type:
+          type: string
+          example: 6
+        activity_subject_id:
+          type: int
+          example: 1
+        way_length:
+          type: string
+          example: 6
+        speed:
+          type: string
+          example: 6
+        total_time:
+          type: string
+          example: "22:22:22"
+        start_time:
+          type: string
+          example: "22:22:22"
+        address:
+          type: string
+          example: "Cầu Giấy - Hà Nội - Việt Nam"
+        average_heart_rate:
+          type: string
+          example: 60
+        calories_burned:
+          type: string
+          example: 222
+        description:
+          type: string
+          example: "ghi chú222"
+        image_url:
+          type: array
+          example:
+            [
+              "https://picsum.photos/id/237/200/300",
+              "https://picsum.photos/seed/picsum/200/300",
+              "https://picsum.photos/200/300?grayscale",
+            ]
+        permission:
+          type: int
+          example: 1
+    createActivityUser:
+      type: object
+      properties:
+        total_time:
+          type: string
+          description: tổng thời gian
+          example: 11:00:00
+        permission:
+          type: int
+          description: quyền
+          example: 1
+        activity_subject_id:
+          type: int
+          example: 13
+        type:
+          type: string
+          example: 8
+        image_url:
+          type: array
+          example:
+            [
+              "https://picsum.photos/id/237/200/300",
+              "https://picsum.photos/seed/picsum/200/300",
+              "https://picsum.photos/200/300?grayscale",
+            ]
+        calories_burned:
+          type: string
+          example: 60
+        start_time:
+          type: string
+          example: "2021-10-05 11:57:00"
+        average_heart_rate:
+          type: string
+          example: 90
+    Application:
+      title: Ứng dụng MCS
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - code
+    LoginForm:
+      title: Form đăng nhập
+      type: object
+      properties:
+        account:
+          type: string
+          description: Email / Username
+          example: john_doe_0
+        password:
+          type: string
+          description: Mật khẩu
+          example: elcom@123
+      required:
+        - account
+        - password
+    LoginFormSocial:
+      title: Form đăng nhập social
+      type: object
+      properties:
+        token:
+          type: string
+          description: Access token facebook (google)
+      required:
+        - token
+    LoginAdminForm:
+      title: Form đăng nhập
+      type: object
+      properties:
+        account:
+          type: string
+          description: Email / Username
+          example: admin_fitness
+        password:
+          type: string
+          description: Mật khẩu
+          example: elcom@123
+      required:
+        - account
+        - password
+    UpdateUserRequest:
+      title: Thông tin người dùng có thể cập nhật
+      type: object
+      properties:
+        full_name:
+          type: string
+        password:
+          type: string
+      required:
+        - full_name
+        - password
+    ApplicationAssignRequest:
+      title: Gán ứng dụng
+      type: object
+      properties:
+        guard:
+          type: string
+        code:
+          type: string
+        model_id:
+          type: integer
+      required:
+        - guard
+        - code
+        - model_id
+    WorkoutFormForCategory:
+      type: object
+      properties:
+        workout_id:
+          type: integer
+          description: workout id
+          example: 1
+        order:
+          type: integer
+          example: 1
+        status:
+          type: integer
+          example: 1
+    CategoryForm:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Mông & Chân"
+        description:
+          type: string
+          example: "Nhằm mục tiêu mông và chân"
+        image:
+          type: string
+          example: "images/14102021/Hzm60h50h1hIIXwjwNTBqIxNf2sBHddn9IXeQUXk.png"
+        cover:
+          type: string
+          example: "images/13102021/4NLHap9bg36CUzHczuYFPePID1IjTe7cAhUZeXuL.png"
+        order:
+          type: integer
+          example: 1
+        status:
+          type: integer
+          example: 1
+        color:
+          type: string
+          example: "#2530be"
+        workouts:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkoutFormForCategory"
+    ToolForm:
+      type: object
+      properties:
+        name:
+          type: string
+          description: tên tool
+          example: new name
+    SubjectForm:
+      type: object
+      properties:
+        name:
+          type: string
+          description: tên subject
+          example: new_subject
+        type:
+          type: integer
+          description: id type
+          example: 3
+    LevelForm:
+      title: tạo level
+      type: object
+      properties:
+        name:
+          type: string
+          description: tên level
+          example: new_level
+    #  WorkoutForm
+    WorkoutForm:
+      title: workout đăng nhập
+      type: object
+      properties:
+        name:
+          type: string
+          description: name workout
+          example: name workout 1
+        status:
+          type: integer
+          description: status workout
+          example: 1
+        time:
+          type: integer
+          description: time workout
+          example: 20
+        subject_id:
+          type: integer
+          description: subject_id
+          example: 1
+        level_id:
+          type: integer
+          description: level_id
+          example: 1
+        type_id:
+          type: integer
+          description: type_id
+          example: 1
+        details:
+          type: array
+          description: Chi tiết một workout
+          items:
+            $ref: "#/components/schemas/detailItem"
+    detailItem:
+      title: workout đăng nhập
+      type: object
+      properties:
+        id:
+          type: integer
+          description: time workout
+          example: 2
+        excercise_id:
+          type: integer
+          description: time workout
+          example: 20
+        order:
+          type: integer
+          description: subject_id
+          example: 1
+        time:
+          type: integer
+          description: thời gian của một wk
+          example: 1
+    createBookMark:
+      type: object
+      properties:
+        workout_id:
+          type: integer
+          description: workout_id
+          example: 2
+    createdRate:
+      type: object
+      properties:
+        workout_id:
+          type: integer
+          description: workout_id
+          example: 2
+        rate:
+          type: integer
+          description: rate
+          example: 2
+        histories:
+          type: array
+          description: Chi tiết một workout
+          items:
+            $ref: "#/components/schemas/histories"
+    createdComment:
+      type: object
+      properties:
+        post_id:
+          type: integer
+          description: post_id
+          example: 2
+        content:
+          type: string
+          description: Content comment
+          example: "Nội dung comment"
+        publish:
+          type: integer
+          description: "0 nháp, 1: hiển thị"
+          example: 1
+        parent_id:
+          type: integer
+          description: "Nếu là comment cha thì không có giá trị, con nếu child thì sẽ là id comment cha"
+          example: 1
+    createdLike:
+      type: object
+      properties:
+        post_id:
+          type: integer
+          description: post_id
+          example: 2
+    histories:
+      title: workout đăng nhập
+      type: object
+      properties:
+        workout_exercise_id:
+          type: integer
+          description: workout_exercise_id
+          example: 20
+        time:
+          type: integer
+          description: thời gian
+          example: 1
+        status:
+          type: integer
+          description: trạng thái
+          example: 1
+    # end WorkoutForm
+    ExerciseForm:
+      title: Thêm mới exercise
+      type: object
+      properties:
+        name:
+          type: string
+          description: Tên exercise
+          example: Back and forth squat
+        image:
+          type: string
+          description: Ảnh động tác
+          example: fitness/image/22072021/bfc6a001-78ab-4cc2-8e1b-1406847b2165.jpg
+        movement:
+          type: string
+          description: Video động tác
+          example: https://static.1sk.vn:8403/v1.0/upload/fitness/video/22072021/56e0e488-050a-488e-9430-4d734fcc0554.mp4
+        type_movement:
+          type: integer
+          description: Loại video động tác video - 0, link - 1
+          example: 0
+        video_movement_duration:
+          type: integer
+          description: Thời gian của video động tác
+          example: 10
+        video:
+          type: string
+          description: Video hướng dẫn
+          example: https://static.1sk.vn:8403/v1.0/upload/fitness/video/22072021/56e0e488-050a-488e-9430-4d734fcc0554.mp4
+        type_video:
+          type: integer
+          description: Mật khẩu
+          example: 0
+        time:
+          type: integer
+          description: Thời gian (tính bằng giây) / số lần tập
+          example: 10
+        type_display:
+          type: integer
+          description: Loại động tác 0- thời gian, 1- số lần tập
+          example: 0
+        description:
+          type: string
+          description: Mô tả động tác
+          example: Mô tả
+        subject_id:
+          type: integer
+          description: id bộ môn
+          example: 1
+        level_id:
+          type: integer
+          description: id cấp độ
+          example: 1
+        type_id:
+          type: integer
+          description: id loại bài tập
+          example: 1
+        status:
+          type: integer
+          description: Trạng thái động tác 1-active, 0-unactive
+          enum: [0, 1]
+          example: 1
+        tools:
+          type: array
+          description: danh sách dụng cụ
+          items:
+            type: integer
+          example: [1, 2]
+        filters:
+          type: array
+          description: Danh sách bộ lọc
+          items:
+            type: integer
+          example: [1, 2]
+      required:
+        - name
+        - movement
+    postForm:
+      type: object
+      properties:
+        title:
+          type: string
+          description: title
+          example: "Title bài viêt"
+        content:
+          type: string
+          description: Content bài post
+          example: "Content tại đây ...."
+        permission_id:
+          type: integer
+          description: Id permission
+          example: 2
+        status:
+          type: integer
+          description: "0 nháp, 1: hiển thị"
+          example: 1
+        type:
+          type: integer
+          description: "1: bài viết, 2: ảnh, video, 3: hoạt động"
+          example: 1
+        media:
+          type: array
+          description: Mảng media
+          items:
+            $ref: "#/components/schemas/detailMedia"
+        infos:
+          type: array
+          description: Mảng info
+          items:
+            $ref: "#/components/schemas/detailInfo"
+    detailInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Mảng info
+          example: "Quãng đường"
+        value:
+          type: string
+          description: "info"
+          example: "1 km"
+        order:
+          type: integer
+          description: Order
+          example: 1
+    detailMedia:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title media
+          example: "ảnh 1"
+        link:
+          type: string
+          description: url
+          example: "https://picsum.photos/id/237/200/300"
+        content:
+          type: string
+          description: content
+          example: "mô tả ảnh 2"
+        order:
+          type: integer
+          description: order
+          example: 1
+        type:
+          type: integer
+          description: type
+    #  UploadFileForm
+    uploadFileForm:
+      title: Upload file
+      type: object
+      parameters:
+        file:
+          type: "file"
+          in: "formData"
+          description: file max:10000|mimes:jpeg,png
+        folder:
+          type: string
+          description: name folder  'exercise_images', 'images'
+          example: "exercise_images"
+    #  end UploadFileForm
+    #  UploadVideoForm
+    uploadVideoForm:
+      title: Upload video
+      type: object
+      properties:
+        file:
+          type: file
+          description: file max:20000|mimes:mp4,mov,ogg
+        folder:
+          type: string
+          description: name folder exercise_videos, exercise_movements
+          example: "exercise_movements"
+    #  end UploadVideoForm
+    basicInformationResource:
+      title: Basic information resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID khách hàng
+          example: 1
+        uuid:
+          type: string
+          description: UUID khách hàng
+          example: 30178380-fb5a-11eb-a994-d14380dcc7a8
+        username:
+          type: string
+          description: Tên tài khoản
+          example: username
+        email:
+          type: string
+          description: Email
+          example: username@elcom.com.vn
+        mobile:
+          type: string
+          description: Số điện thoại
+          example:
+        full_name:
+          type: string
+          description: Họ và tên
+          example: Nguyễn Văn A
+        skype:
+          type: string
+          description: Skype
+          example:
+        facebook:
+          type: string,
+          description: Facebook
+          example:
+        avatar:
+          type: string
+          description: Đường dẫn ảnh đại diện
+          example: https://id-dev.1sk.vn/file/avatar_files@jUFyN7OD05C4LN7qAi19xVcEYAGE7nOZ6QKZpW0C.jpg
+        address:
+          type: string
+          description: Địa chỉ
+          example:
+        birthday:
+          type: string
+          description: Ngày tháng năm sinh
+          example:
+        gender:
+          type: string
+          description: Giới tính
+          example:
+        fb_id:
+          type: string
+          description: ID facebook
+          example:
+        gg_id:
+          type: string
+          description: ID google
+          example:
+        activated_at:
+          type: string
+          description: Thời gian kích hoạt
+          example:
+        email_verified_at:
+          type: string
+          description: Thời gian xác nhận email
+          example:
+        mobile_verified_at:
+          type: string
+          description: Thời gian xác nhận số điện thoại
+          example:
+        set_password_at:
+          type: string
+          description: Thời gian cài đặt mật khẩu
+          example:
+        phone_number:
+          type: string
+          description: Số điện thoại
+          example: 8965231477
+        avatar_updated_at:
+          type: string
+          description: Thời gian cập nhật ảnh đại diện
+          example:
+        deleted_at:
+          type: string
+          description: Thời gian xóa
+          example:
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-08-12T10:43:53.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-08-12T10:43:53.000000Z"
+    timeAvailableResource:
+      title: Time available resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID thời gian rảnh
+          example: 1
+        date:
+          type: integer
+          description: Ngảy (timestamp)
+          example: 1632848400
+        start_at:
+          type: integer
+          description: Thời gian bắt đầu (timestamp)
+          example: 1632875400
+        end_at:
+          type: integer
+          description: Thời gian kêt thúc (timestamp)
+          example: 1632877200
+    specialistResource:
+      title: Specialist resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID chuyên khoa
+          example: 1
+        name:
+          type: string
+          description: Tên chuyên khoa
+          example: Da liễu
+        description:
+          type: string
+          description: Mô tả
+          example:
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-09-27T08:02:14.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-09-27T08:02:14.000000Z"
+    academicTitleResource:
+      title: Academic title resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID học hàm
+          example: 1
+        name:
+          type: string
+          description: Tên học hàm
+          example: Phó giáo sư
+        short_name:
+          type: string
+          description: Tên rút gọn của học hàm
+          example: PGS
+    advanceInformationResource:
+      title: Advance information resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID thông tin nâng cao
+          example: 1
+        customer_id:
+          type: integer
+          description: ID khách hàng
+          example: 1
+        office_address:
+          type: string
+          description: Nơi công tác
+          example: Học viện Quân y Học viện Quân y
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-09-29T10:00:29.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-09-29T10:00:29.000000Z"
+    costResource:
+      title: Cost resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID giá
+          example: 1
+        customer_id:
+          type: integer
+          description: ID khách hàng
+          example: 1
+        cost_per_hour:
+          type: integer
+          description: Giá cho mỗi giờ
+          example: 1000000
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-09-29T10:00:29.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-09-29T10:00:29.000000Z"
+    doctorResource:
+      title: Doctor resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID của bác sĩ
+        basic_information:
+          $ref: "#/components/schemas/basicInformationResource"
+        time_available:
+          $ref: "#/components/schemas/timeAvailableResource"
+        specialist:
+          $ref: "#/components/schemas/specialistResource"
+        academic_title:
+          $ref: "#/components/schemas/academicTitleResource"
+        advance_information:
+          $ref: "#/components/schemas/advanceInformationResource"
+        cost:
+          $ref: "#/components/schemas/costResource"
+    appointmentStatusResource:
+      title: Appointment status resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID trạng thái lịch hẹn
+          example: 1
+        name:
+          type: string
+          description: Tên trạng thái
+          example: Đang chờ thanh toán
+        is_flag_end:
+          type: boolean
+          description: Cờ kêt thúc
+          example: 0
+    doctorAvailableTimeResource:
+      title: Doctor available resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID thời gian rảnh
+          example: 1
+        date:
+          type: integer
+          description: Ngày (timestamp)
+          example: 1634749200
+        start_at:
+          type: integer
+          description: Thời gian bắt đầu (timestamp)
+          example: 1634774400
+        end_at:
+          type: integer
+          description: Thời gian kết thúc (timestamp)
+          example: 1634776200
+    customerResource:
+      title: Customer resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID khách hàng
+          example: 1
+        information:
+          type: object
+          $ref: "#/components/schemas/basicInformationResource"
+    bankResource:
+      title: Bank resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID ngân hàng
+          example: 1
+        account_number:
+          type: string
+          description: Số tài khoản
+          example: 456745674567
+        account_name:
+          type: string
+          description: Tên tài khoản
+          example: Công ty Cổ phần 1SK
+        bank_name:
+          type: string
+          description: Tên ngân hàng
+          example: Ngân hàng quân đội MBBank
+        bank_branch_name:
+          type: string
+          description: Tên chi nhánh
+          example: Hội sở chính
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-10-20T04:26:36.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-10-20T04:26:36.000000Z"
+    appointmentResource:
+      title: Appointment resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID lịch hẹn
+          example: 1
+        code:
+          type: integer
+          description: Mã lịch hẹn
+          example: 7DKKA0
+        patient_name:
+          type: integer
+          description: Tên bệnh nhân
+          example: Nguyễn Văn A
+        patient_birth_year:
+          type: integer
+          description: Năm sinh
+          example: 1989
+        patient_symptom:
+          type: string
+          description: Triệu chứng
+          example: Ho, sốt
+        cancellation_reason:
+          type: string
+          description: Lý do hủy
+          example: Bác sĩ bận
+        diagnosis:
+          type: string
+          description: Chẩn đoán
+          example: Cảm cúm
+        prescription:
+          type: string
+          description: Đơn thuốc
+          example: Cỏ
+        next_appointment:
+          type: integer
+          description: Lịch khám lại
+          example: 1634778000
+        status:
+          type: object
+          $ref: "#/components/schemas/appointmentStatusResource"
+        doctor_available_time:
+          type: object
+          $ref: "#/components/schemas/doctorAvailableTimeResource"
+        customer:
+          type: object
+          $ref: "#/components/schemas/customerResource"
+        doctor:
+          type: object
+          $ref: "#/components/schemas/doctorResource"
+        bank:
+          type: object
+          $ref: "#/components/schemas/bankResource"
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+        created_at:
+          type: string
+          description: Thời gian tạo
+    appointmentTokenResource:
+      title: Appointment token resource
+      type: object
+      properties:
+        app_id:
+          type: string
+          description: ID ứng dụng
+          example: 1e81669e89dd45b68b76b8d8122bce0b
+        token:
+          type: string
+          description: Token
+          example: 0061e81669e89dd45b68b76b8d8122bce0bIADoNNk2pqzIpciB8JRJw2zW5KefeWwUrdXDS9kENi9ZtrN9a38AAAAAEAAH5dGQIQNxYQEAAQAiA3Fh
+        channel_name:
+          type: string
+          description: Tên kênh
+          example: 1sk-appointment-1
+        expired_at:
+          type: integer
+          description: Thời gian hết hạn (timestamp)
+          example: 1634779800
+        appointment:
+          type: object
+          $ref: "#/components/schemas/appointmentResource"
+    patientResource:
+      title: Patient resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID bệnh nhân
+          example: 1
+        full_name:
+          type: string
+          description: Tên bệnh nhân
+          example: Nguyễn Văn A
+        birthday:
+          type: string
+          description: Ngày sinh
+          example: 01/01/1989
+        gender:
+          type: string
+          description: Giới tính
+          example: Nam
+        appointments_count:
+          type: integer
+          description: Số lượng đã tư vấn
+          example: 1
+        appointments:
+          type: array
+          items:
+            $ref: "#/components/schemas/appointmentResource"
+    paginationResource:
+      title: Pagination resource
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 1
+        count:
+          type: integer
+          example: 15
+        per_page:
+          type: integer
+          example: 15
+        current_page:
+          type: integer
+          example: 1
+        total_pages:
+          type: integer
+          example: 1
+        links:
+          type: object
+    calendarResource:
+      title: Calendar resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID thời gian rảnh
+          example: 1
+        date:
+          type: integer
+          description: Ngày (timestamp)
+          example: 1634749200
+        start_at:
+          type: integer
+          description: Thời gian bắt đầu (timestamp)
+          example: 1634774400
+        end_at:
+          type: integer
+          description: Thời gian kết thúc (timestamp)
+          example: 1634776200
+        is_available:
+          type: boolean
+          description: Khoảng thời gian rảnh
+          example: true
+    announcementResource:
+      title: Announcement resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID thông báo
+          example: 1
+        title:
+          type: string
+          description: Tiêu đề
+          example: Đặt lịch hẹn thành công
+        content:
+          type: string
+          description: Nội dung
+          example: Bạn đã đặt lịch hẹn Da liễu, mã 7DKKA0 thành công vào lúc 08:00, ngày 21/10/2021.
+        is_read:
+          type: boolean
+          description: Đã đọc
+          example: false
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: 1634704055
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: 1634704055
+    userInformationResource:
+      title: User information resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID khách hàng
+          example: 1
+        information:
+          type: object
+          description: Thông tin
+          example:
+        roles:
+          type: array
+          description: Danh sách role
+          items:
+            $ref: "#/components/schemas/roleResource"
+    permissionResource:
+      title: Permission resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID quyền
+          example: 1
+        name:
+          type: string
+          description: Tên quyền
+          example: demo
+        define:
+          type: string
+          description: Định nghĩa
+          example: demo
+        guard_name:
+          type: string
+          description: Tên guard
+          example: customer
+        updated_at:
+          type: string
+          description: Thời gian cập nhật
+          example: "2021-10-20T04:26:36.000000Z"
+        created_at:
+          type: string
+          description: Thời gian tạo
+          example: "2021-10-20T04:26:36.000000Z"
+    roleResource:
+      title: Role resource
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID role
+          example: 1
+        name:
+          type: string
+          description: Tên role
+          example: doctor
+        description:
+          type: string
+          description: Mô tả
+          example:
+        guard_name:
+          type: string
+          description: Tên guard
+          example: customer
+        permissions:
+          type: array
+          description: Danh sách quyền
+          items:
+            $ref: "#/components/schemas/permissionResource"
+    updateDoctorMeForm:
+      title: Form cập nhật thông tin bác sĩ
+      type: object
+      properties:
+        specialist_id:
+          type: integer
+          description: ID chuyên khoa
+        office_address:
+          type: string
+          description: Nơi công tác
+        academic_title_id:
+          type: integer
+          description: ID học hàm
+    updateDoctorAppointmentForm:
+      title: Form cập nhật lịch hẹn của bác sĩ
+      type: object
+      properties:
+        appointment_status_id:
+          type: integer
+          description: ID trạng thái lịch hẹn (3 - Xác nhận | 4 - Hủy bỏ | 5 - Hoàn thành)
+        cancellation_reason:
+          type: string
+          description: Lý do hủy (bắt buộc nếu appointment_status_id = 4)
+        diagnosis:
+          type: string
+          description: Chẩn đoán (bắt buộc nếu appointment_status_id = 5)
+        prescription:
+          type: string
+          description: Đơn thuốc (sử dụng nếu appointment_status_id = 5, không bắt buộc)
+    updateCalendarForm:
+      title: Form cập nhật lịch rảnh/bận
+      type: object
+      properties:
+        is_available:
+          type: boolean
+          description: Rảnh/bận
+        confirm:
+          type: boolean
+          description: Đồng ý thay đổi
+    storeAppointmentForm:
+      title: Form tạo mới lịch hẹn
+      type: object
+      properties:
+        doctor_available_time_id:
+          type: integer
+          description: ID thời gian rảnh
+        patient_name:
+          type: string
+          description: Tên bệnh nhân
+        patient_birth_year:
+          type: integer
+          description: Năm sinh
+        patient_gender:
+          type: string
+          description: Giới tính
+        patient_phone:
+          type: string
+          description: Số điện thoại
+        patient_symptom:
+          type: string
+          description: Triệu chứng
+      required:
+        - doctor_available_time_id
+        - patient_name
+        - patient_birth_year
+        - patient_gender
+        - patient_phone
+        - patient_symptom
+    updateAppointmentForm:
+      title: Form cập nhật lịch hẹn
+      type: object
+      properties:
+        doctor_available_time_id:
+          type: integer
+          description: ID thời gian rảnh
+        patient_name:
+          type: string
+          description: Tên bệnh nhân
+        patient_birth_year:
+          type: integer
+          description: Năm sinh
+        patient_gender:
+          type: string
+          description: Giới tính
+        patient_phone:
+          type: string
+          description: Số điện thoại
+        patient_symptom:
+          type: string
+          description: Triệu chứng
+        appointment_status_id:
+          type: integer
+          description: ID trạng thái
+    readAnnouncementForm:
+      title: Form đánh dẫu đã đọc thông báo
+      type: object
+      properties:
+        announcement_id[]:
+          type: array
+          items: integer
+          description: ID thông báo
+    postTransactionForm:
+      title: Form thanh toán
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          description: ID thanh toán
+        product_code:
+          type: string
+          description: Mã sản phẩm
+        request_amount:
+          type: integer
+          description: Số lượng yêu cầu
+        fee:
+          type: string
+          description: Chi phí
+        amount:
+          type: string
+          description: Số lượng
+        type:
+          type: string
+          description: Loại thanh toán
+        status:
+          type: string
+          description: Trạng thái
+    storeRoleForm:
+      title: Form tạo mới role
+      type: object
+      properties:
+        display_name:
+          type: string
+          description: Tên hiển thị
+        name:
+          type: string
+          description: Tên role
+        guard_name:
+          type: string
+          description: Tên guard
+    storeDoctorForm:
+      title: Form tạo mới bác sĩ
+      type: object
+      properties:
+        username:
+          type: string
+          description: Tên người dùng
+        email:
+          type: string
+          description: Đại chỉ email
+        full_name:
+          type: string
+          description: Họ tên
+        avatar:
+          type: string
+          description: Ảnh đại diện
+        address:
+          type: string
+          description: Địa chỉ
+        birthday:
+          type: string
+          description: Ngày sinh
+        gender:
+          type: string
+          description: Giới tính
+        phone_number:
+          type: string
+          description: Số điện thoại
+    updateDoctorForm:
+      title: Form cập nhật bác sĩ
+      type: object
+      properties:
+        specialist_id:
+          type: string
+          description: ID chuyên khoa
+        office_address:
+          type: string
+          description: Nơi công tác
+        academic_title_id:
+          type: string
+          description: ID học hàm
+        cost_per_hour:
+          type: string
+          description: Giá tư vấn / giờ
+    voteAppointmentForm:
+      title: Form vote lịch hẹn
+      type: object
+      properties:
+        vote_doctor:
+          type: float
+          description: Vote cho bác sĩ (0 -> 5)
+        vote_appointment:
+          type: float
+          description: Vote cho bác sĩ (0 -> 5)
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+    BadRequestError:
+      description: "Request không hợp lệ"
+    DoctorDetail:
+      description: Chi tiết bác sĩ
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/doctorResource"
+    SpecialistList:
+      description: Danh sách chuyên khoa
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/specialistResource"
+    DoctorList:
+      description: Danh sách bác sĩ
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctorResource"
+    AppointmentDetail:
+      description: Chi tiết lịch hẹn
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/appointmentResource"
+    AppointmentList:
+      description: Danh sách bác sĩ
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/appointmentResource"
+    AppointmentTokenDetail:
+      description: Chi tiết token lịch hẹn
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/appointmentTokenResource"
+    PatientDetail:
+      description: Chi tiết bệnh nhân
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/patientResource"
+    PatientList:
+      description: Danh sách bệnh nhân
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/patientResource"
+    CalendarDetail:
+      description: Chi tiết lịch rảnh/bận
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/calendarResource"
+    CalendarList:
+      description: Danh sách lịch rảnh/bận
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/calendarResource"
+    AppointmentStatusList:
+      description: Danh sách trạng thái lịch hẹn
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/appointmentStatusResource"
+    AnnouncementDetail:
+      description: Chi tiết thông báo
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/announcementResource"
+    AnnouncementList:
+      description: Danh thông báo
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/announcementResource"
+    DoctorAvailableTimeList:
+      description: Danh thông báo
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/doctorAvailableTimeResource"
+    HotlineDetail:
+      description: Chi tiết hotline
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                type: object
+                properties:
+                  hotline:
+                    type: string
+                    description: Số hotline
+                    example: 0123456789
+    AppointmentPaymentPeriodDetail:
+      description: Chi tiết thời gian thanh toán
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                type: object
+                properties:
+                  appointment_payment_period:
+                    type: integer
+                    description: Thời gian thanh toán
+                    example: 30
+    CustomerInformationDetail:
+      description: Chi tiết thông tin khách hàng
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/userInformationResource"
+    CustomerInformationList:
+      description: Danh sách người dùng
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/userInformationResource"
+    PermissionList:
+      description: Danh sách quyền
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/permissionResource"
+    RoleList:
+      description: Danh sách role
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  total:
+                    type: integer
+                  pagination:
+                    $ref: "#/components/schemas/paginationResource"
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/roleResource"
+    RoleDetail:
+      description: Chi tiết role
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+              data:
+                $ref: "#/components/schemas/roleResource"

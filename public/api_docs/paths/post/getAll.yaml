@@ -1,0 +1,11 @@
+get:
+  tags:
+    - Post service
+  summary: lấy tất cả bài post
+  responses:
+    200:
+      description: Tất cả bài viết
+    404:
+      description: posts not found
+    default:
+      description: unexpected error

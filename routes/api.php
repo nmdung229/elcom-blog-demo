@@ -29,24 +29,24 @@ Route::group(['prefix' => 'post'], function (){
     Route::post('/update/{id}', 'PostController@update');
     Route::delete('/delete/{id}', 'PostController@destroy');
     Route::get('/filterByTitle/{title}', 'PostController@filterByTitle');
-    Route::get('/filterByTag/{title}', 'PostController@filterByTitle');
+    Route::get('/filterByTag/{tag_id}', 'PostController@filterByTag');
     Route::get('/searchBySummary/{summary}', 'PostController@searchBySummary');
 });
-
-/**
- * Route for video
- */
-Route::group(['prefix' => 'video'], function (){
-    Route::get('/getAll', 'VideoController@index');
-    Route::get('/show/{id}', 'VideoController@show');
-    Route::post('/create', 'VideoController@store');
-    Route::post('/update/{id}', 'VideoController@update');
-    Route::delete('/delete/{id}', 'VideoController@destroy');
-    Route::get('/filterByTitle/{title}', 'VideoController@filterByTitle');
-    Route::get('/filterByTag/{tag_id}', 'VideoController@filterByTag');
-    Route::get('/searchByDescription/{description}', 'VideoController@searchByDescription');
-
-});
+//
+///**
+// * Route for video
+// */
+//Route::group(['prefix' => 'video'], function (){
+//    Route::get('/getAll', 'VideoController@index');
+//    Route::get('/show/{id}', 'VideoController@show');
+//    Route::post('/create', 'VideoController@store');
+//    Route::post('/update/{id}', 'VideoController@update');
+//    Route::delete('/delete/{id}', 'VideoController@destroy');
+//    Route::get('/filterByTitle/{title}', 'VideoController@filterByTitle');
+//    Route::get('/filterByTag/{tag_id}', 'VideoController@filterByTag');
+//    Route::get('/searchByDescription/{description}', 'VideoController@searchByDescription');
+//
+//});
 
 
 

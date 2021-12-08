@@ -1,0 +1,39 @@
+post:
+  summary: Tạo bài viết mới
+  tags:
+    - Post service
+  requestBody:
+    description: Tạo bài viết mới
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: "Tiêu đề"
+            content:
+              type: string
+            thumbnail:
+              type: file
+              format: file
+            position:
+              type: integer
+            is_active:
+              type: boolean
+            is_hot:
+              type: boolean
+            summary:
+              type: string
+            meta_title:
+              type: string
+            meta_description:
+              type: string
+
+
+  responses:
+    201:
+      description: Post created
+    default:
+      description: Unexpected error

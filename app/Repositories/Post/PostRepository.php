@@ -154,7 +154,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $result = $tag->morphByPosts;
         return $result;
     }
-
     /**
      * @param $summary
      * @return mixed

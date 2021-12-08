@@ -101,4 +101,17 @@ class TestController extends Controller
         dd($result);
     }
 
+    public function testSwagger()
+    {
+        return view('swagger.index');
+    }
+    public function swagger1SKServer()
+    {
+        return view('swagger.swagger1sk');
+    }
+
+    public function swagger1skLocal()
+    {
+        return view('swagger.swagger1skLocal');
+    }
 }

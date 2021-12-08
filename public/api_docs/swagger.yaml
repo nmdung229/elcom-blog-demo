@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: Test Swagger
+  description: Example of integration swagger with PHP Laravel
+  version: 1.1
+servers:
+  - url: http://blogdemo.co/api
+    description: All API
+paths:
+  /post/getAll:
+    $ref: "/api_docs/paths/post/getAll.yaml"
+  /post/show/{postID}:
+    $ref: "/api_docs/paths/post/getPostByID.yaml"
+  /post/create:
+    $ref: "/api_docs/paths/post/createPost.yaml"
+  /post/filterByTag/{tag_id}:
+    $ref: "/api_docs/paths/post/filterByTag.yaml"
+  /post/searchBySummary/{summary}:
+    $ref: "/api_docs/paths/post/searchBySummary.yaml"
+#    get:
+#      summary: tìm kiếm post theo mô tả
+#      parameters:
+#        - name: summary
+#          in: path
+#          schema:
+#            type: string
+#          required: true
+#          description: mô tả post
+#      responses:
+#        200:
+#          description: Bài viết theo mô tả
+#        default:
+#          description: unexpected error
+
+  /users:
+    post:
+      tags:
+        - Register user
+      description: Create new user
+      produces:
+        - application/json
+      parameters:
+        - in: "formData"
+          name: "user[nickname]"
+          required: true
+        - in: "formData"
+          name: "user[birthday]"
+          required: true
+          type: string
+        - in: "formData"
+          name: "user[avatar_id]"
+          required: true
+          type: number
+      responses:
+        200:
+          description: User created
+

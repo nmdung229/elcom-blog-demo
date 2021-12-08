@@ -60,7 +60,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function find($id)
     {
         // TODO: Implement find() method.
-        $result = $this->model->find($id);
+        $result = $this->model->findOrFail($id);
 
         return $result;
     }
