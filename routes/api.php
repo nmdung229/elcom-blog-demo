@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TestController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +19,7 @@ use App\Http\Controllers\PostController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-//Route::get('post', 'PostController@index');
+Route::get('list-category/{category_id}', 'TestController@myFunction');
 //Route::resource('post', 'PostController');
 /**
  * Route for post

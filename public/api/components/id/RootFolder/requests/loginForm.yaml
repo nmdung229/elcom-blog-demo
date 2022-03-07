@@ -1,0 +1,16 @@
+title: Form đăng nhập
+type: object
+properties:
+  account:
+    type: string
+    description: Email / Username
+    example: john_doe_0
+  password:
+    type: string
+    description: Password
+    example: elcom@123
+required:
+  - account
+  - password
+
+

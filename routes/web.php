@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\NotificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +46,7 @@ Route::get('/', function () {
 Route::get('/testSwagger', 'TestController@testSwagger');
 Route::get('/1skSwaggerServer', 'TestController@swagger1SKServer');
 Route::get('/1skSwaggerLocal', 'TestController@swagger1SKLocal');
+
+Route::get('/testOneSignal', 'NotificationController@sendNotiToAll');
+
+Route::get('/1skSwagger', 'TestController@swagger1sk');

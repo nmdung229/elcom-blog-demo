@@ -1,0 +1,8 @@
+title: Form đăng nhập social
+type: object
+properties:
+  token:
+    type: string
+    description: Access token facebook (google)
+required:
+  - token

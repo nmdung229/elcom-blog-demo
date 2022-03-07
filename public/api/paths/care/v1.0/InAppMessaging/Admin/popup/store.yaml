@@ -1,0 +1,42 @@
+post:
+  security:
+    - bearerAuth: []
+  summary: Tạo popup
+  tags:
+    - Admin (Care service)
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../../../components/care/InAppMessaging/requests/createPopup.yaml"
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "../../../../../../components/care/InAppMessaging/requests/createPopup.yaml"
+  responses:
+    200:
+      description: "Tạo popup thành công"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Tạo popup thành công."
+              data:
+                $ref: "../../../../../../components/care/InAppMessaging/models/Popup.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"
+    404:
+      $ref: "../../../../../../shared/responses/notfound.yaml"
+

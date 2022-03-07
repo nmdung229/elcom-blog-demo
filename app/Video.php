@@ -3,10 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Video extends Model
 {
     protected $table = 'videos';
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

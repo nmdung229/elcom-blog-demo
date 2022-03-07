@@ -1,0 +1,17 @@
+post:
+  summary: Khách hàng đăng nhập facebook
+  tags:
+    - Đăng nhập (Auth Service)
+  requestBody:
+    description: Form đăng nhập facebook
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../../components/id/RootFolder/requests/loginFormSocial.yaml"
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "../../../../../components/id/RootFolder/requests/loginFormSocial.yaml"
+  responses:
+    "200":
+      description: OK

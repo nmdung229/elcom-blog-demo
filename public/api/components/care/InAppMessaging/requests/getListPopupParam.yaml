@@ -1,0 +1,30 @@
+- in: query
+  name: keywords
+  schema:
+    type: string
+    description: từ khoá tìm kiếm
+- in: query
+  name: type
+  schema:
+    type: string
+    description: kiểu popup
+- in: query
+  name: frequency
+  schema:
+    type: integer
+    description: "kiểu gửi: 1 lần | hàng ngày"
+- in: query
+  name: is_published
+  schema:
+    type: integer
+    description: trạng thái đã công bố | nháp
+- in: query
+  name: is_sent
+  schema:
+    type: integer
+    description: trạng thái đã gửi | chưa gửi
+- in: query
+  name: per_page
+  schema:
+    type: integer
+    description: số bản ghi trên 1 trang

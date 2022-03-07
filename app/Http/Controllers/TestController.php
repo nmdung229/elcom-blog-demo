@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Comment;
 use App\File;
 use App\Post;
@@ -113,5 +114,34 @@ class TestController extends Controller
     public function swagger1skLocal()
     {
         return view('swagger.swagger1skLocal');
+    }
+
+    public function swagger1sk()
+    {
+        return view('swagger.1sk');
+    }
+
+    public function myFunction($category_id)
+    {
+        $category_ids[] = (int)$category_id;
+        $category = Category::find($category_id);
+        if($category) {
+            $this->getAllCategoryID($category_ids, $category);
+        }
+        dd($category_ids);
+//        $data = Category::whereIn('id', $category_ids);
+//        return responses()->json([
+//            'data' => $data
+//        ]);
+    }
+    public function getAllCategoryID(&$category_ids, $category)
+    {
+        $child_category = Category::where('parent_id', $category->id)->get();
+        if(count($child_category) > 0) {
+            foreach($child_category as $value) {
+                $category_ids[] = $value->id;
+                $this->getAllCategoryID($category_ids, $value);
+            }
+        }
     }
 }

@@ -1,0 +1,34 @@
+get:
+  summary: Lấy hash code set external User ID
+  tags:
+    - Thông báo (Care service)
+  security:
+    - bearerAuth: []
+  responses:
+    200:
+      description: "Lấy hash userID thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+                  total:
+                    type: integer
+                    example: 1
+              data:
+                type: string
+                example: "devergo6834a8d54f6knu52845c852deh67g8jnormd58c3230dbb3d19273a809"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"

@@ -14,3 +14,4 @@
 Route::prefix('modules/product')->group(function() {
     Route::get('/', 'ProductController@index');
 });
+

@@ -7,6 +7,323 @@ servers:
   - url: https://fitness-dev.1sk.vn/api/v1.1
     description: Fitness Service
 paths:
+#  OneSignal API start
+  /customer/onesignal/generate-user-id-hash:
+    get:
+      summary: Lấy hash code set external User ID
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/onesignal/get-all-tags:
+    get:
+      summary: Lấy tất cả các tags
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: key
+          description: Tìm kiếm theo tag key
+          schema:
+            type: string
+        - in: query
+          name: value
+          description: Tìm kiếm theo tag value
+          schema:
+            type: string
+        - in: query
+          name: is_active
+          description: Tìm kiếm active / non-active tag
+          schema:
+            type: integer
+        - in: query
+          name: per_page
+          description: Số bản ghi trên 1 trang
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/onesignal/attach-tags:
+    post:
+      summary: attach tag to user
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: danh sách tags
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tag_ids:
+                  type: array
+                  example: [
+                    2,4,5
+                  ]
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/onesignal/get-customer-tags:
+    get:
+      summary: get user's tags
+      tags:
+        - Thông báo (Care service)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/tags:
+    get:
+      summary: Lấy danh sách Tags
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: key
+          description: Tìm kiếm theo tag key
+          schema:
+            type: string
+        - in: query
+          name: value
+          description: Tìm kiếm theo tag value
+          schema:
+            type: string
+        - in: query
+          name: is_active
+          description: Tìm kiếm active / non-active tag
+          schema:
+            type: integer
+        - in: query
+          name: per_page
+          description: Số bản ghi trên 1 trang
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/tag:
+    post:
+      summary: Tạo tag
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: form tạo tag
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneSignalTagForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/tag/{id}:
+    get:
+      summary: show Tag
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: tag id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    put:
+      summary: update tag
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: form update tag
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneSignalTagForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: delete Tag
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: tag id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/send-to-specific-customer/{userId}:
+    post:
+      summary: send notification to specific customer
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            description: customer id
+      requestBody:
+        summary: form tạo thông báo
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneSignalSingleNotiForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/send-to-customer-by-tags:
+    post:
+      summary: send notification by tags
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: danh sách tags
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OneSignalTagNotiForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/remove-tag/{customerId}/{tagId}:
+    delete:
+      summary: remove tag from user
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          schema:
+            type: integer
+            description: customer id
+        - in: path
+          name: tagId
+          required: true
+          schema:
+            type: integer
+            description: tag id
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /admin/onesignal/attach-tags:
+    post:
+      summary: attach tag to user
+      tags:
+        - Admin (Care service)
+      security:
+        - bearerAuth: []
+      requestBody:
+        summary: danh sách tags
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topics:
+                  type: array
+                  example: [
+                    2,4,5
+                  ]
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+  /customer/change-password:
+    post:
+      summary: Khách hàng đổi mật khẩu
+      tags:
+        - Đăng nhập (Auth Service)
+      requestBody:
+        description: Form đổi mật khẩu
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordForm"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordForm"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/UnauthorizedError"
+
+
+
+
+
+
+
+
+
+
+
+#  OneSignal API end
 #  Fitness/Config start 10/11/2021 14:26 start
 #  Customer
 #  Banner
@@ -14,7 +331,7 @@ paths:
     get:
       summary: danh sách banners
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -42,7 +359,7 @@ paths:
     get:
       summary: lấy banner theo ID
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -62,7 +379,7 @@ paths:
     get:
       summary: danh sách sliders
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -90,7 +407,7 @@ paths:
     get:
       summary: lấy slider theo ID
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -109,7 +426,7 @@ paths:
     get:
       summary: danh sách config-pages
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -137,7 +454,7 @@ paths:
     get:
       summary: danh sách config-pages by type
       tags:
-        - Customer (Fitness Service) / Chưa push
+        - Customer (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -166,7 +483,7 @@ paths:
     get:
       summary: danh sách banners
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -194,7 +511,7 @@ paths:
     post:
       summary: tạo banner
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       requestBody:
@@ -214,7 +531,7 @@ paths:
     get:
       summary: lấy banner theo ID
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -232,7 +549,7 @@ paths:
     put:
       summary: chỉnh sửa banner
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -257,7 +574,7 @@ paths:
     delete:
       summary: xoá banner
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -276,7 +593,7 @@ paths:
     get:
       summary: danh sách sliders
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -304,7 +621,7 @@ paths:
     post:
       summary: tạo slider
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       requestBody:
@@ -323,7 +640,7 @@ paths:
     get:
       summary: lấy slider theo ID
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -341,7 +658,7 @@ paths:
     put:
       summary: chỉnh sửa slider
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -366,7 +683,7 @@ paths:
     delete:
       summary: xoá slider
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -385,7 +702,7 @@ paths:
     get:
       summary: danh sách config-pages
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -413,7 +730,7 @@ paths:
     get:
       summary: get config-page by id
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -431,7 +748,7 @@ paths:
     put:
       summary: chỉnh sửa config-page
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -456,7 +773,7 @@ paths:
     delete:
       summary: xoá config-page
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       parameters:
@@ -475,7 +792,7 @@ paths:
     post:
       summary: tạo config-page
       tags:
-        - Admin (Fitness Service) / Chưa push
+        - Admin (Fitness Service)
       security:
         - bearerAuth: []
       requestBody:
@@ -1855,7 +2172,7 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/Success"
-#          Music find by ID hiện tại đang chưa có function trong Controller
+#          Music find by ID hiện tại đang chưa có function trong controller
 #  /music/{id}:
 #    get:
 #      summary: Lấy music theo ID
@@ -2462,6 +2779,104 @@ paths:
 
 components:
   schemas:
+    ChangePasswordForm:
+      title: change password
+      type: object
+      properties:
+        old_password:
+          type: string
+          example: "abc123"
+        new_password:
+          type: string
+          example: "abcxyz"
+        re_new_password:
+          type: string
+          example: "abcxyz"
+    OneSignalTagNotiForm:
+      title: create topic noti onesignal
+      type: object
+      properties:
+        tags:
+          type: object
+          example: {
+            "userType": "Farmer",
+            "userMob": "September"
+          }
+        headings:
+          type: string
+          example: "1SK VN"
+        message:
+          type: string
+          example: "New notification"
+        url:
+          type: string
+          example: "https://1sk.vn/"
+        image_url:
+          type: string
+          example: "https://image.thanhnien.vn/w1024/Uploaded/2021/kpqkcwvo/2021_10_15/vinfast-vf-e34-02-3011.jpeg"
+        buttons:
+          type: array
+          example: [
+          {
+            "id": "id1",
+            "text": "first button",
+            "icon": "ic_menu_share"
+          },
+          {
+            "id": "id2",
+            "text": "second button",
+            "icon": "ic_menu_send"
+          }
+          ]
+        schedule:
+          type: string
+          example: "2021-12-10 13:24:00 GMT+0700"
+    OneSignalSingleNotiForm:
+      title: create single noti onesignal
+      type: object
+      properties:
+        headings:
+          type: string
+          example: "1SK VN"
+        message:
+          type: string
+          example: "New notification"
+        url:
+          type: string
+          example: "https://1sk.vn/"
+        image_url:
+          type: string
+          example: "https://image.thanhnien.vn/w1024/Uploaded/2021/kpqkcwvo/2021_10_15/vinfast-vf-e34-02-3011.jpeg"
+        buttons:
+          type: array
+          example: [
+          {
+            "id": "id1",
+            "text": "first button",
+            "icon": "ic_menu_share"
+          },
+          {
+            "id": "id2",
+            "text": "second button",
+            "icon": "ic_menu_send"
+          }
+          ]
+        schedule:
+          type: string
+          example: "2021-12-10 13:24:00 GMT+0700"
+    OneSignalTagForm:
+      title: create/update tags onesignal
+      type: object
+      properties:
+        key:
+          type: string
+          example: "userType"
+        value:
+          type: string
+          example: "VIP"
+        is_active:
+          type: integer
+          example: 1
     ConfigConfigPageForm:
       title: create config page
       type: object

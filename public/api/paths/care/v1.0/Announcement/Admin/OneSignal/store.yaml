@@ -1,0 +1,37 @@
+post:
+  summary: Tạo tag
+  tags:
+    - Admin (Care service)
+  security:
+    - bearerAuth: []
+  requestBody:
+    summary: form tạo tag
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../../../components/care/Announcement/requests/OneSignalTagForm.yaml"
+  responses:
+    200:
+      description: "Tạo tag thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+              data:
+                $ref: "../../../../../../components/care/Announcement/models/Tag.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"

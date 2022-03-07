@@ -1,0 +1,34 @@
+type: object
+properties:
+  name:
+    type: string
+    description: tên popup
+    example: "Giảm giá siêu sốc ngày cuối năm."
+  image_url:
+    type: string
+    description: đường dẫn hình ảnh
+    example: "https://znews-photo.zadn.vn/w960/Uploaded/ofh_btgazspf/2022_01_24/240655338_718284186234358_6488485994550967103_n_1_1.jpg"
+  destination_url:
+    type: string
+    description: đường dẫn gốc
+    example: "https://zingnews.vn/nha-hang-o-tphcm-chay-dua-trong-mua-tiec-tat-nien-post1291872.html"
+  type:
+    type: string
+    description: loại đường dẫn
+    example: "link_bat_ky | dat_lich | video | bai_viet | ho_so_bac_si"
+  start_at:
+    type: string
+    description: thời điểm popup diễn ra
+    example: "2022-01-25 14:35:00"
+  end_at:
+    type: string
+    description: thời điểm popup kết thúc
+    example: "2022-01-25 15:35:00"
+  position:
+    type: integer
+    description: vị trí | thứ tự ưu tiên hiển thị popup
+    example: 1
+  frequency:
+    type: integer
+    description: tần suất hiển thị popup
+    example: 1

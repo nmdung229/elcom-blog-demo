@@ -1,0 +1,12 @@
+title: create/update tags onesignal
+type: object
+properties:
+  key:
+    type: string
+    example: "userType"
+  value:
+    type: string
+    example: "VIP"
+  is_active:
+    type: integer
+    example: 1

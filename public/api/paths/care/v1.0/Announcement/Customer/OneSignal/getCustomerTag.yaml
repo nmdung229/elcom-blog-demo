@@ -1,0 +1,11 @@
+get:
+  summary: get user's tags
+  tags:
+    - Thông báo (Care service)
+  security:
+    - bearerAuth: []
+  responses:
+    200:
+      $ref: "../../../../../../shared/responses/success.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"

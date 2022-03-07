@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  version: "1.1"
+  title: Swagger 1sk
+servers:
+  - url: https://fitness-dev.1sk.vn/api/v1.1
+    description: Fitness Service
+  - url: https://id-dev.1sk.vn/api
+    description: Authentication Service
+  - url: https://care-dev.1sk.vn/api/v1.0
+    description: Care service
+paths:
+  #Chưa thêm vào visual - start
+  #Chưa thêm vào visual - end
+  /admin/onesignal/tags:
+    $ref: "paths/care/v1.0/Announcement/Admin/OneSignal/index.yaml"
+  /admin/onesignal/tag:
+    $ref: "paths/care/v1.0/Announcement/Admin/OneSignal/store.yaml"
+  /admin/onesignal/tag/{id}:
+    $ref: "paths/care/v1.0/Announcement/Admin/OneSignal/show_update_delete.yaml"
+  /customer/onesignal/generate-user-id-hash:
+    $ref: "paths/care/v1.0/Announcement/Customer/OneSignal/generateUserIDhash.yaml"
+  /customer/onesignal/get-customer-tags:
+    $ref: "paths/care/v1.0/Announcement/Customer/OneSignal/getCustomerTag.yaml"
+  /customer/login:
+    $ref: "paths/id/RootFolder/Customer/auth/login.yaml"
+  /customer/fb/callback:
+    $ref: "paths/id/RootFolder/Customer/auth/loginFacebook.yaml"
+  /customer/google/callback:
+    $ref: "paths/id/RootFolder/Customer/auth/loginGoogle.yaml"
+  /customer/change-password:
+    $ref: "paths/id/RootFolder/Customer/me/changePassword.yaml"
+  /admin/login:
+    $ref: "paths/id/RootFolder/Admin/auth/login.yaml"
+  /admin/iam/popup:
+    $ref: "paths/care/v1.0/InAppMessaging/Admin/popup/store.yaml"
+  /admin/iam/popup/{id}:
+    $ref: "paths/care/v1.0/InAppMessaging/Admin/popup/show_update_delete.yaml"
+  /admin/iam/popups:
+    $ref: "paths/care/v1.0/InAppMessaging/Admin/popup/index.yaml"
+  /iam/popups:
+    $ref: "paths/care/v1.0/InAppMessaging/Customer/popup/index.yaml"
+  /iam/popup/mark-as-read/{popup_id}:
+    $ref: "paths/care/v1.0/InAppMessaging/Customer/popup/mark_as_read.yaml"
+  /iam/popup/mark-as-received:
+    $ref: "paths/care/v1.0/InAppMessaging/Customer/popup/mark_as_received.yaml"
+components:
+  securitySchemes:
+    bearerAuth:
+      $ref: "shared/security/bearerAuth.yaml"
+    apiKeyAuth:
+      $ref: "shared/security/apiKeyAuth.yaml"

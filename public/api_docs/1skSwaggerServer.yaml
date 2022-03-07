@@ -3467,7 +3467,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
       responses:
@@ -3484,7 +3484,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
       requestBody:
@@ -3541,7 +3541,7 @@ paths:
             type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
         - in: query
@@ -3586,7 +3586,7 @@ paths:
               type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
         - in: query
@@ -3619,7 +3619,7 @@ paths:
             type: string
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
       responses:
@@ -3641,7 +3641,7 @@ paths:
             type: string
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
       requestBody:
@@ -3673,7 +3673,7 @@ paths:
             type: string
         - in: query
           name: include
-          description: Thêm thông tin vào response (appointment)
+          description: Thêm thông tin vào responses (appointment)
           schema:
             type: string
       responses:
@@ -3696,7 +3696,7 @@ paths:
             type: string
         - in: query
           name: include
-          description: Thêm thông tin vào response (appointment)
+          description: Thêm thông tin vào responses (appointment)
           schema:
             type: string
       responses:
@@ -3901,7 +3901,7 @@ paths:
               type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
         - in: query
@@ -3928,7 +3928,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
       requestBody:
@@ -3960,7 +3960,7 @@ paths:
             type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
       responses:
@@ -3982,7 +3982,7 @@ paths:
             type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (customer, doctor, doctor_available_time, bank)
+          description: Thêm thông tin vào responses (customer, doctor, doctor_available_time, bank)
           schema:
             type: string
       requestBody:
@@ -4014,7 +4014,7 @@ paths:
             type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (appointment)
+          description: Thêm thông tin vào responses (appointment)
           schema:
             type: string
       responses:
@@ -4037,7 +4037,7 @@ paths:
             type: integer
         - in: query
           name: include
-          description: Thêm thông tin vào response (appointment)
+          description: Thêm thông tin vào responses (appointment)
           schema:
             type: string
       responses:
@@ -4436,7 +4436,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
       requestBody:
@@ -4461,7 +4461,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
       requestBody:
@@ -4486,7 +4486,7 @@ paths:
       parameters:
         - in: query
           name: include
-          description: Thêm thông tin vào response (basic_information, time_available, specialist, academic_title, advance_information, cost)
+          description: Thêm thông tin vào responses (basic_information, time_available, specialist, academic_title, advance_information, cost)
           schema:
             type: string
         - in: query

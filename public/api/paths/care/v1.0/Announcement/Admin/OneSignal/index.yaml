@@ -1,0 +1,56 @@
+get:
+  summary: Lấy danh sách Tags
+  tags:
+    - Admin (Care service)
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: query
+      name: key
+      description: Tìm kiếm theo tag key
+      schema:
+        type: string
+    - in: query
+      name: value
+      description: Tìm kiếm theo tag value
+      schema:
+        type: string
+    - in: query
+      name: is_active
+      description: Tìm kiếm active / non-active tag
+      schema:
+        type: integer
+    - in: query
+      name: per_page
+      description: Số bản ghi trên 1 trang
+      schema:
+        type: integer
+  responses:
+    200:
+      description: "Lấy danh sách tag thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+                  total:
+                    type: integer
+                    example: 1
+              data:
+                type: array
+                items:
+                  $ref: "../../../../../../components/care/Announcement/models/Tag.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"

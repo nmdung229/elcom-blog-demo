@@ -1,0 +1,111 @@
+get:
+  summary: show Tag
+  tags:
+    - Admin (Care service)
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+        description: tag id
+  responses:
+    200:
+      description: "Tìm kiếm tag thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+              data:
+                $ref: "../../../../../../components/care/Announcement/models/Tag.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"
+put:
+  summary: update tag
+  tags:
+    - Admin (Care service)
+  security:
+    - bearerAuth: []
+  requestBody:
+    summary: form update tag
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../../../components/care/Announcement/requests/OneSignalTagForm.yaml"
+  responses:
+    200:
+      description: "Cập nhật tag thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+              data:
+                $ref: "../../../../../../components/care/Announcement/models/Tag.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"
+delete:
+  summary: delete Tag
+  tags:
+    - Admin (Care service)
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+        description: tag id
+  responses:
+    200:
+      description: "Xoá tag thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  request_time:
+                    type: integer
+                    example: 1644313624
+                  message:
+                    type: string
+                    example: "Success"
+              data:
+                $ref: "../../../../../../components/care/Announcement/models/Tag.yaml"
+    400:
+      $ref: "../../../../../../shared/responses/unauthorized.yaml"

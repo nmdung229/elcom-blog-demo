@@ -1,0 +1,39 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 1
+  name:
+    type: string
+    example: "Video tập luyện"
+  slug:
+    type: string
+    example: "video-tap-luyen"
+  description:
+    type: string
+    example: "Video tập luyện là danh mục bao gồm những video tập luyện nâng cao sức khỏe, cải thiện vóc dáng"
+  parent_id:
+    type: integer
+    example: 0
+  type:
+    type: integer
+    example: 2
+  order:
+    type: integer
+    example: 1
+  status:
+    type: integer
+    example: 1
+  categories:
+    type: array
+    items:
+      $ref: "./TestModel.yaml"
+  deleted_at:
+    type: string
+    example: "2022-01-05T04:28:57.000000Z"
+  created_at:
+    type: string
+    example: "2022-01-05T04:28:57.000000Z"
+  updated_at:
+    type: string
+    example: "2022-01-05T04:28:57.000000Z"

@@ -1,0 +1,42 @@
+post:
+  summary: Khách hàng đăng nhập.
+  tags:
+    - Đăng nhập (Auth Service)
+  requestBody:
+    description: Form đăng nhập
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../../../components/id/RootFolder/requests/loginForm.yaml"
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "../../../../../components/id/RootFolder/requests/loginForm.yaml"
+  responses:
+    200:
+      description: "Đăng nhập thành công."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Success"
+              data:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vaWQtZGV2LjFzay52bi9hcGkvY3VzdG9tZXIvbG9naW4iLCJpYXQiOjE2NDQ0NjIwODMsImV4cCI6MjExMTAyMjA4MywibmJmIjoxNjQ0NDYyMDgzLCJqdGkiOiIyeENMRHlYbUhwVUt5amYyIiwic3ViIjozLCJwcnYiOiIxZDBhMDIwYWNmNWM0YjZjNDk3OTg5ZGYxYWJmMGZiZDRlOGM4ZDYzIiwibW9kZWxfdHlwZSI6IkFwcFxcTW9kZWxzXFxDdXN0b21lciIsIm1vZGVsX2lkIjozLCJndWFyZCI6ImN1c3RvbWVyIiwiY2FuX2FjY2VzcyI6W3sibmFtZSI6IjFTSyBDQVJFIiwiY29kZSI6IjFza19jYXJlIiwiZGVzY3JpcHRpb24iOm51bGx9LHsibmFtZSI6IjFTSyBGSVRORVNTIiwiY29kZSI6IjFza19maXRuZXNzIiwiZGVzY3JpcHRpb24iOm51bGx9LHsibmFtZSI6IjFTSyBTVE9SRSIsImNvZGUiOiIxc2tfc3RvcmUiLCJkZXNjcmlwdGlvbiI6bnVsbH0seyJuYW1lIjoiASTRALISTk5G21QiLCJjb2RlIjoiNAvIX2Nvbm5lY3QiLCJkZX123321888vbiI6bnVsbH1dfQ.USl4UXFaFKKVvPF9fTwht_S7IUL-oTbgV8S5Gp9Sf2U"
+                  customer:
+                    type: object
+                    example: {}
+    404:
+      $ref: "../../../../../shared/responses/notfound.yaml"
